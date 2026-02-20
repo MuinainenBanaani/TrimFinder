@@ -17,48 +17,6 @@ A fancy, dark-themed checklist site for Minecraft armor trim collectors. Track w
 
 ---
 
-## 🗂️ Repository Structure
-
-```
-TrimFinder/
-├── index.html        ← Main site file
-├── README.md         ← This file
-└── images/           ← All Minecraft texture images
-    ├── sentry_armor_trim_smithing_template.png
-    ├── dune_armor_trim_smithing_template.png
-    ├── coast_armor_trim_smithing_template.png
-    ├── wild_armor_trim_smithing_template.png
-    ├── ward_armor_trim_smithing_template.png
-    ├── silence_armor_trim_smithing_template.png
-    ├── eye_armor_trim_smithing_template.png
-    ├── vex_armor_trim_smithing_template.png
-    ├── tide_armor_trim_smithing_template.png
-    ├── snout_armor_trim_smithing_template.png
-    ├── rib_armor_trim_smithing_template.png
-    ├── spire_armor_trim_smithing_template.png
-    ├── bolt_armor_trim_smithing_template.png
-    ├── flow_armor_trim_smithing_template.png
-    ├── wayfinder_armor_trim_smithing_template.png
-    ├── raiser_armor_trim_smithing_template.png
-    ├── shaper_armor_trim_smithing_template.png
-    ├── host_armor_trim_smithing_template.png
-    ├── diamond.png
-    ├── cobblestone.png
-    ├── sandstone.png
-    ├── mossy_cobblestone.png
-    ├── cobbled_deepslate.png
-    ├── end_stone.png
-    ├── prismarine.png
-    ├── blackstone.png
-    ├── netherrack.png
-    ├── purpur_block.png
-    ├── copper_block.png
-    ├── breeze_rod.png
-    └── terracotta.png
-```
-
----
-
 ## 🪄 All 18 Trims
 
 | Trim | Location | Chance | Dimension | Duplicate With |
@@ -81,25 +39,6 @@ TrimFinder/
 | Raiser | Trail Ruins (Suspicious Gravel) | 8.3% | Overworld | Terracotta |
 | Shaper | Trail Ruins (Suspicious Gravel) | 8.3% | Overworld | Terracotta |
 | Host | Trail Ruins (Suspicious Gravel) | 8.3% | Overworld | Terracotta |
-
----
-
-## 🚀 Hosting on GitHub Pages
-
-1. Go to your repo → **Settings** → **Pages**
-2. Under *Branch*, select `main` and `/ (root)`
-3. Click **Save**
-4. Your site will be live at `https://muinainenbanaani.github.io/TrimFinder` within a minute
-
-> 💡 Rename `trim_finder.html` to `index.html` so the URL doesn't include the filename.
-
----
-
-## 🛠️ Built With
-
-- Pure HTML, CSS & JavaScript — no frameworks, no dependencies
-- Minecraft textures from the game files
-- Google Fonts (Cinzel, Inter)
 
 ---
 
