@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trim Finder — Minecraft Armor Trims Checklist</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0a0c0f;
+    --surface: #111418;
+    --surface2: #181d23;
+    --surface3: #1e242d;
+    --border: #2a3040;
+    --gold: #f0c040;
+    --gold2: #c8901a;
+    --gold-glow: rgba(240,192,64,0.15);
+    --text: #d4c9b0;
+    --text-muted: #7a8090;
+    --green: #4caf50;
+    --red: #e05555;
+    --craft-bg: #1a1510;
+    --craft-cell: #2e2416;
+    --craft-border: #4a3820;
+    --craft-outer: #120f08;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(91,143,212,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 20%, rgba(240,192,64,0.04) 0%, transparent 60%);
+  }
+
+  /* HEADER */
+  header { text-align: center; padding: 48px 20px 28px; border-bottom: 1px solid var(--border); position: relative; }
+  header::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .header-icon { font-size: 44px; margin-bottom: 10px; display: block; filter: drop-shadow(0 0 20px rgba(240,192,64,0.5)); }
+  h1 { font-family: 'Cinzel', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: var(--gold); text-shadow: 0 0 40px rgba(240,192,64,0.4), 0 2px 4px rgba(0,0,0,0.8); letter-spacing: 0.05em; }
+  .subtitle { margin-top: 8px; color: var(--text-muted); font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* PROGRESS */
+  .progress-section { max-width: 960px; margin: 28px auto 0; padding: 0 20px; }
+  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-family: 'Cinzel', serif; font-size: 0.82rem; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .progress-count { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 600; color: var(--gold); }
+  .progress-bar-bg { height: 8px; background: var(--surface2); border-radius: 4px; border: 1px solid var(--border); overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold2), var(--gold)); border-radius: 4px; transition: width 0.5s ease; box-shadow: 0 0 12px rgba(240,192,64,0.4); }
+
+  /* CONTROLS */
+  .controls { max-width: 960px; margin: 20px auto 0; padding: 0 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .filter-btn { padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s; letter-spacing: 0.06em; text-transform: uppercase; }
+  .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .filter-btn.active { background: var(--gold-glow); border-color: var(--gold); color: var(--gold); }
+  .reset-btn { margin-left: auto; padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s; letter-spacing: 0.06em; text-transform: uppercase; }
+  .reset-btn:hover { border-color: var(--red); color: var(--red); }
+
+  /* GRID */
+  .grid { max-width: 960px; margin: 24px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+
+  /* CARD */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; cursor: pointer; transition: all 0.25s ease; position: relative; overflow: hidden; user-select: none; animation: fadeIn 0.4s ease both; }
+  .card:hover { border-color: rgba(240,192,64,0.45); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.45), 0 0 0 1px rgba(240,192,64,0.08); }
+  .card.found { border-color: rgba(76,175,80,0.55); }
+  .card.found .card-header { background: linear-gradient(135deg, #0d1f0e, #131b14); }
+  .card.hidden { display: none; }
+
+  .found-badge { position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; opacity: 0; transform: scale(0); transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 0 12px rgba(76,175,80,0.6); z-index: 2; }
+  .card.found .found-badge { opacity: 1; transform: scale(1); }
+
+  /* Card header */
+  .card-header { background: var(--surface2); padding: 16px 16px 12px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); transition: background 0.25s; }
+  .card-img-wrap { width: 56px; height: 56px; background: var(--bg); border-radius: 8px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .card-img-wrap img { width: 48px; height: 48px; image-rendering: pixelated; object-fit: contain; }
+  .card-name { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); margin-bottom: 5px; }
+
+  /* Location banner - bold and visible */
+  .location-banner { display: inline-flex; align-items: center; gap: 7px; background: rgba(240,192,64,0.13); border: 1px solid rgba(240,192,64,0.28); border-radius: 6px; padding: 4px 10px; font-size: 0.83rem; font-weight: 600; color: var(--gold); }
+
+  /* Card body */
+  .card-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+
+  /* Badges row */
+  .meta-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .chance-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; border: 1px solid; }
+  .chance-very-rare { color: #e05555; border-color: rgba(224,85,85,0.35); background: rgba(224,85,85,0.1); }
+  .chance-rare      { color: #f09040; border-color: rgba(240,144,64,0.35); background: rgba(240,144,64,0.1); }
+  .chance-uncommon  { color: #f0c040; border-color: rgba(240,192,64,0.35); background: rgba(240,192,64,0.1); }
+  .chance-common    { color: #4caf50; border-color: rgba(76,175,80,0.35); background: rgba(76,175,80,0.1); }
+  .dim-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; border: 1px solid; }
+  .dim-overworld { color: #6ec46e; border-color: rgba(110,196,110,0.3); background: rgba(110,196,110,0.08); }
+  .dim-nether    { color: #e86030; border-color: rgba(232,96,48,0.3); background: rgba(232,96,48,0.08); }
+  .dim-end       { color: #c080f0; border-color: rgba(192,128,240,0.3); background: rgba(192,128,240,0.08); }
+
+  /* Source row */
+  .source-row { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
+  .source-label { color: var(--text-muted); }
+  .source-val { color: var(--text); font-weight: 500; }
+
+  /* ===== CALCULATOR ===== */
+  .calc-box { background: var(--surface3); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+  .calc-title { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .calc-row { display: flex; align-items: center; gap: 0; }
+
+  /* Styled number input with MC-themed +/- buttons */
+  .calc-number-wrap {
+    display: flex; align-items: center;
+    background: var(--craft-outer);
+    border: 1px solid var(--craft-border);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .calc-btn {
+    width: 28px; height: 28px;
+    background: var(--craft-cell);
+    border: none;
+    color: var(--gold);
+    font-size: 1rem; font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+    border-right: 1px solid var(--craft-border);
+  }
+  .calc-btn:last-child { border-right: none; border-left: 1px solid var(--craft-border); }
+  .calc-btn:hover { background: #4a3820; color: #fff; }
+  .calc-btn:active { background: #5a4828; }
+  .calc-input {
+    width: 52px; padding: 4px 2px;
+    background: var(--craft-outer);
+    border: none;
+    color: var(--gold);
+    font-size: 0.9rem; font-weight: 700;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+  }
+  .calc-input:focus { outline: none; }
+  .calc-label { font-size: 0.78rem; color: var(--text-muted); margin-left: 8px; }
+  .calc-result { font-size: 0.82rem; color: var(--gold); font-weight: 700; margin-top: 6px; }
+  .calc-result span { color: var(--text-muted); font-weight: 400; }
+
+  /* ===== CRAFTING GRID ===== */
+  .craft-title { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .craft-wrap { display: flex; align-items: center; gap: 10px; }
+  .craft-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 38px);
+    grid-template-rows: repeat(3, 38px);
+    gap: 2px;
+    background: var(--craft-outer);
+    padding: 5px;
+    border-radius: 6px;
+    border: 2px solid var(--craft-border);
+    flex-shrink: 0;
+  }
+  .craft-cell {
+    width: 38px; height: 38px;
+    background: var(--craft-cell);
+    border: 1px solid var(--craft-border);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  /* Minecraft-style inset shadow on cells */
+  .craft-cell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 2px 2px 0 rgba(0,0,0,0.4), inset -1px -1px 0 rgba(255,255,255,0.05);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .craft-cell img { width: 28px; height: 28px; image-rendering: pixelated; object-fit: contain; position: relative; z-index: 1; }
+  .craft-arrow { font-size: 18px; color: var(--text-muted); flex-shrink: 0; }
+  .craft-right { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .craft-output {
+    width: 44px; height: 44px;
+    background: var(--craft-cell);
+    border: 2px solid var(--gold2);
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 10px rgba(200,144,26,0.35), inset 2px 2px 0 rgba(0,0,0,0.3);
+    position: relative;
+  }
+  .craft-output img { width: 34px; height: 34px; image-rendering: pixelated; object-fit: contain; }
+  .craft-x2 { font-size: 0.75rem; font-weight: 700; color: var(--gold); text-align: center; }
+  .craft-diamond-list {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 1px;
+    background: var(--craft-outer); border: 1px solid var(--craft-border);
+    border-radius: 5px; padding: 5px 8px;
+    font-size: 0.68rem; color: var(--text-muted); line-height: 1.7; min-width: 76px;
+  }
+  .craft-diamond-list .dl-row { display: flex; align-items: center; gap: 5px; }
+  .craft-diamond-list img { width: 14px; height: 14px; image-rendering: pixelated; }
+  .craft-diamond-list strong { color: var(--text); }
+
+  /* LORE */
+  .lore-text { font-size: 0.78rem; color: var(--text-muted); font-style: italic; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.5; }
+
+  footer { text-align: center; padding: 28px; color: var(--text-muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 12px; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<header>
+  <span class="header-icon">⚔️</span>
+  <h1>Trim Finder</h1>
+  <p class="subtitle">Minecraft Armor Trims Collector's Checklist</p>
+</header>
+
+<div class="progress-section">
+  <div class="progress-header">
+    <span class="progress-label">Collection Progress</span>
+    <span class="progress-count" id="progressCount">0 / 18</span>
+  </div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+</div>
+
+<div class="controls">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="found">Found</button>
+  <button class="filter-btn" data-filter="missing">Missing</button>
+  <button class="reset-btn" id="resetBtn">Reset All</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>Click any card to mark as found &nbsp;·&nbsp; Progress saves automatically &nbsp;·&nbsp; Created by <a href="https://fi.namemc.com/profile/MuinainenBanaani.1" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:600;transition:opacity 0.2s" onmouseover="this.style.opacity=0.75" onmouseout="this.style.opacity=1">MuinainenBanaani</a></footer>
+
+<script>
+const GH = "https://raw.githubusercontent.com/MuinainenBanaani/TrimFinder/main/images";
+const IMGS = {"trim_eye": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABg0lEQVR4AXSRPUsDQRCGRzvF4hQLC01lYSMBQdAuWPrRiJ1go4Wg9f2IFGJhYZFOBQuxUAMKIiGVKAgJiBJENAYVlOSKkHS58AzssUf2Am92MjPvM7Obfkn4vH8fh+i5chAmtGjaCcBI1fM8GRjyhN9JICfAmIMgECAIEJDc/m5sox4ATRiAICCIGMj84pQAQeR6ACQx/NQ+pN0MVOQQvznHxwYFZbdXwhjg+tQPmULjeWpLkN+YVQg5agiIUQxAkkaMO51bWa+fydH0nywVJimpKsWynrXflp4RgOkTMymdipnqwtWocJ275X9hE94GI6q/fop/eNkXATCg+1JJTcSbGxkO1Vw6LQ8XRY3tLwWY6V9PVckOPwqTecTVak7vfzKyJmzFZMxmOrECCDBzBeJ85k1X5i0QZtd0eiOAMZPkpdkEI2Ib13R6FVAuvAgbkED8E5xMxWzXyNtSAK8JJL93EwPRiDlpOnUFEABBNsi+Fj0uRQBTBIIMiJNXR+RNnzm7AAAA///HuSLMAAAABklEQVQDAPZR9Ff9zoZ8AAAAAElFTkSuQmCC", "trim_tide": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABkUlEQVR4AYSRP0tCURjG3yQc1CJII2uQAqGpIIjILWhqaGvxIzREX6FPUHNzNNYmNDaGEAQVRkg43dArpukdKrqd34vndqV7S3juOef983vec0xIzG//8txH5YtTP6ZEw5EAGrOZSUFLM7PCOQ4UCQA9nUoLYg8om0oJkM3DvZGJEhSERRENxNreQK7HJ35ABpJfLgkQRM0vAEG335PHpiOsuUJBKu8JvY7reaQlmy+qVg/K/ghg9+TIZ1StMp/61Lz5imwnv6TWfBFySIPDzwhgGNMFN9xbjYaebaMzPLvOk8YDAO55My6NvZWSJDe2hGbc2+YttNp8aETdzqvcHJ+NBQCTE9fckcY151kW63ey/vkm1fyCvgV5687eSgG4Z9Jp+Wi11LVtHLkzsoWsOLNad/YKYNMfDMQzo+MabuQa5KPciQcAJri/7RAL1J0rio1FuVOogPpDVZiglHP17yJhtVPwJM6dGgXwmkBqVxV9BxLoP3dqFMAGCAqDmOgvd/oCAAcEBFkQK6+OiFMT1jcAAAD//+V5ji4AAAAGSURBVAMARw3mCL6GROEAAAAASUVORK5CYII=", "trim_host": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABXUlEQVR4AXSRvUrDYBSGTzs5+LM0Ad00bg7iIHoHIri5iOAdiBcgqKh3IL0Nr8JFEZSCgoNpl9JCEihNO3RLeU57QpPmK7z9zt/7nO9r6+L43F6dZeji5ChzjGi5EoCR7tamLzu+J+QuUCXAzL1+JEAQICCHQVC40RKAIQxAEBBEDCTYbQgQRG0JQBEDakextK7vKKnICRrrK4K2PS+rUzCdHuxlbCFnePT0IvvNZ1IVPaTJ/KsAmNecB9Dvn472k3SiZw5g+4a/qkUGy9up0cQ4UyqdOK7lAJrIBn9bA32//QZcfRiNGSlIAbbdBt7PH+X49UHW7m9UOACzmThJU91OrAACzPYEcsRWhJk+tbJygJnZfvnW1DmMiKRqO3UF0LQNXN1MVrMTQ1kK+AzDGpDwP5HyMDk9jItvJ0cKIACCGP74aivInkXfpRxgA0D4f/+6kQDiZDOibnN2TgEAAP//K2HrmAAAAAZJREFUAwB9KtaTpIlwfgAAAABJRU5ErkJggg==", "trim_ward": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABgUlEQVR4AXSSsUsCcRTHX21aBhFKTWG6WbQEuhrRUFGNjq2Nbv4LuTi2tkhrOEuzQ4uDUKBFOIRHEmSd4+XnwTvuujvx67vf+73f533f71yWhE+tVvPQ6dmFl1Ci6VgAB3O5nKDCzrawTgLFAmY/cxm9vovjONoFUGY1JUAq5XLIUQRAUXfvWNB/ELSN7KYAQawjAJJb+YIcXR7I4PxaGAEQwgX7qXRaULFY9EKAarXqUVR5vKNOSvvrGnGDghDdWPyEAIu1/820WlJot/Uugo4mk4nWzF1Xow+ge3plTZNc2qxel87uieCo1LnVPI44iD6nUxkOh0s+gAr391vokG02ZdD/0hF6h1d6DzhyGw2dnVqTAqy7Oej1+/LxNpLuw5NCrNiidWetAB5MQOjO3Jbj/4AzrCPLEyMAkvYWgGCdnB0MdievgPF4LMxPAvG68vc3gljTnRgnBXCbQF6eBz6IUTjA4aTu7CuAByAoCDII+0nyAVYABBmIyNyIvNVZ/AMAAP//Dkg6MQAAAAZJREFUAwAaCNo41AAYJgAAAABJRU5ErkJggg==", "trim_silence": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB40lEQVR4AXySTWsTARCG37QeTNIkpGKCFLUf0EuReEvw4xAPKijooWCO/QkevQu1tx71H4igFy9Vj4q1HgTX0EuI/VoK3Ry6bbNtDy3d5pmygbTdBobdmZ153pmX9CnmV6vVQuLJ02dhTIuVzwUwyNdCoaCx0ZsijwOdC2gH+yJarZbq9bo8z1NmIKn+6vOwUi73bHQGgBLNKDOYSmc1X5k0SLbh6E/7QPmhkTAzWDTQGUC0Os8Hc3Pa293RtZExAXp0v6yj4g0FubwuJVMC0gOoVqsh6qz+f2lVi1NTSs3MaKKUN9DXH7/V563p7q07BkGkB0AhisrHD+ZDpVSSXk8b6Pb4sAa2ff2sz+vyxrpt0QWwznflbJ7bFyZfCAgFzjBIOktqEF789eVEF8BNFD/9a5iaDXUK0RmdVztj+OqJSHEwQ0kGQJ2M++4Vc8rMzhpkwXEEkBxvtnyfNl1J9qvZbCZIDIA6zuIwbjO06Pj68uqNhl5OmxecxcDpMABFzGGDb0suqQX5xOe39ieK1NtB0FWnyQCH+3vaGS+ZOYD44L5/p4ej1204Tp0+A7Q3vUTK+SVAFIE8TodmGsNx6vQagBcgBBCCU/42Vvh0YXQBURcQgi1w23XdjomBReR81MvzGAAA//9Rnr7rAAAABklEQVQDAD2k8RkDnsaSAAAAAElFTkSuQmCC", "trim_spire": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABeElEQVR4AXyQy0oCYRTHT0LlIhXDkiS6IEHQohfoFaJVq5ZByxYtpa0+gMugVfUEvUKrdi2sRUhGURpdcEycDJr8nfEbxrk4zP8737n9zpxJSMxzfnTmGMWUaDgSQGM6l5H5Yl6w+Eg7AkckgJpkJokRrB9U3ik7mhgeIQCTaBjmPQOIr1kuLgkQRDIEIGi3bYwYq87gMJDUTEpQaavkjACqe1WHKdZ7Ww4m/wYt7usHkXOj7jkCINTv9jGysZmVw9yUbD/fq88B6LP1xVU63x21HoDphZWC2L2eJjiALKwWZbfzpOv4p3c/ulK5qkx4ABpo3p+25Hh9Dld18puQy8U1vQenE1QA02fzWXw5/UnL60NdajfupxK0XiyMJzOdgAK4+HWRyAuTgZjmRq2he5vdTX0kgFVoBEIhvmn0TyengOZjU8x+BBFNb/WW/tRgjryRAvibQG6v70IgCuOmk1MAFyAoCBo3nT4PgIOAIAPCsjciTo1f/wAAAP//MvU+VQAAAAZJREFUAwCUjNkMNSPNBAAAAABJRU5ErkJggg==", "trim_flow": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABcklEQVR4AXSRvUoDURCFRytBQZQ0miqIheAStLCxsLASEcTKRu1sUvoUPkCeQbEQG7ESSWGhAUWiGFERotm1WIWAFmmy4Rsyl/1JAmfvzpkz34S7wzLgt39wEpkGRNTuC2BwzSuIiRrpROrRF5DKJEAbe4dRvJ8BsInNhPyfETFR43szywIE4WUAmOhx25Pf0iyvKgPlR8dlKldQLayXogTAthNmav64ppA4qPnfouWUAJjLwGT5Vf8+EIR3uzUmYcvXWBB+6OkAbC9Oz+nQWxBok8fZSs559adPLNVX2JD78/KQAxiRLUunfxqyBx7DxatvtSxLoQBulNvFQAxwos1KKGj3ZYJSZdspFMAL4oLYzgAQVG20BT34z8JmRNaUAGAC4SsAQc2dvFwudnSYfnw7tQIw7XYxgbDVQKt3GqOVkXa4zWq9Ihc3R+4zkTRQ7f2aUlhEVoveQwG800BpUPyfkUvLAawBBBmIk80I33J2dgEAAP//N6o8IQAAAAZJREFUAwCrouufK87YlgAAAABJRU5ErkJggg==", "trim_shaper": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABYElEQVR4AXSRsUoDQRCGJ6lSiDa5A9Pp2VmIhfgIIvgAIthZ2toIVpa2KW18BJ/BSgQloGDhJY1EuDsQD4t0l3yTneWS7AX+nZ1/Zr65JW1p+F2fn1To9OiwamhROwhgkGpvM5btOBLyJlAQYMPjn0yAIEBADpJk4YtWADQxAAQBQdyBJDtdAYLwVgCYDCDudQ2zXNPuekfQVhRVbXXccby/W7HFpRoYGlzeCJEa0oI7FgDO84EhS2zw7X2kVlFONHoA2zfiNTXZOL67l87Do0pNdzA4VymjPG95gKvrp3LvXV2Iaa9/iyW2XRN3KMC2/2X/an8MfhXEE5Cas4PNsyBFOd/OXQFcGLYnkCPejYCEttPjAfXhs6c+Nf8VJKHt+AqgyBdgIDYSzbOItywFvKRpC0j6VchyMzk1ButvJ0cK4AIE0fz8OlRQ/Vn0hOQBVgTC//v5nQkgIpsRvvVZnAIAAP//t/YcYAAAAAZJREFUAwAm7s6TrDheGAAAAABJRU5ErkJggg==", "trim_vex": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABd0lEQVR4AXSQu0sDQRCHR0sR8RW4QoxaWJhCEBQstLJQrJNKsLCzDjaC+AfYWVtY26UXJJWIxUUIwoGPWB0mpyJpw4VvuD12yd7B72Z2Ht/M7rgUfGf10xTVjqppQYmGvQAayQbBvCwFJeFcBPICTHMc9wQIAgRkc2Pb2WgEQBENQBAQhA9keW1BgCBiIwCC9zuH8hi+4qo+465j52anBa0srqYOYH/vIGUK1RNX1xih+Wn3RC05pIns5wCymLRbv+qa5sr6jD4mwZfwAyPJz5/aHMD0qWBSg7WoId1OR9iC5srdrcb50ajqJfL+FY3lAJKIqViaHhqhlMplaVePCYmZrofspwAz/T/ua5gGQGxCwFyJyZyTbDq+AnBoNlfgzMN91y+ELTj7phPPAXYz6zOdd6Boq3mTP5o9nZwCouhN2IAAYn00OL8Umu0ceVsK4DWBPDdbDohCmn13J4cUgAME2SD7WtT4lANMEggyICz3RsRNnbFDAAAA///fiXoMAAAABklEQVQDAJ9P3Br4aCMIAAAAAElFTkSuQmCC", "trim_wild": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABvElEQVR4AXSRz0sCURDHJyOKFFFCyF0vQfSDFINCuggV0sXb/gFdunSxfyPB/oD+hg4dOnaoQxfdIBIM9NRld5UsjG2NImzb79h7uOiKs/Nm3nw/b968EAX8yqdlF3ZSKrkBJZyeCIAQu4qqkKKohDgINBEgxJZpEUP+QYAUCgVfR2MAFEEECAwQGNYziyblinE60NIuDLkxAJIQsFkmQmk/HZW+Pwe0nV+nzNYKg3wATdPcq0yRzhc2yfLEuL9Qi3h2fpohPafHWz4AMsdvj7SRjVOiUqG7/T2GIQ9Y91enzssrQno3vthLAE5PqSonn+pD+k42S0eHuwzCRiKUg6PnZptiqTleSwBH3getootqve5FRPAAjnaDDV8HPNFwmwxzODRAUCTEAOZvbmn54oxbN1oDcvofdH3ZmJIdLK0lKbbag44Np0IEMYD6vc55ux1mDzEWEoDpxiNxciINNiGEGIW2bcMRvK7rUxx4HwloPhgknibipPkZxZXgo8m+Vz7+lwBsGa0u3xFrYRDjVMShaIdGT+ccPriPGAoGVK3VeKDiWYNOh1Z2AAgSOAFmGAYxyPOAw0QN6oT9AQAA//+aapAdAAAABklEQVQDAGMB9Yr6lSZyAAAAAElFTkSuQmCC", "trim_sentry": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABVElEQVR4AXSQO0vDYBSGj84i4gUyiKhDB90EBRcnB13c2klwcBPcgqP/xMFVt/6EjqVDW+gS6HUKbdOW0s4pz6En5A5vzvnO5XnzZVcKni/3I0SV13JYMKLlXACLdB3nWM6dE+FcBMoF2LLvTwUIAgTk9uY+8UUZAEMsAEFAEDmQi6tTAYKoZQAUWUDkcQ38iR6PDg8EXZ6VwgTg6fE5xIXBsfstnfKbLtiLHrIzMQGgwDJxMhxKpzUXO1ND7WafIMFsoTEC4L7v7Mn601Vd///KXe1H87/Siw7zYlE1DaQ38nYiAE37vLgzOT1k7uQmBZg7AzhXvKo61x/e9Ss4cxWcWQy27uQKIFn6K+EKDCKcuQI9zvTJ04oALMebtmy1PHd6CvC8ruQ5WM0iC2kpgL8JpFFrZUAsF7kDUwAJEBQHpa/FXFoRwBpAkIGI/HVE3eYsbgAAAP//BFe1eAAAAAZJREFUAwA2VN0awWMIVwAAAABJRU5ErkJggg==", "trim_wayfinder": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABcklEQVR4AXSRv0vDcBDFr50c/LG0AcVF4+YgDqKLi4sU3HRwcRSX4h8gqKCzm/RPcHPWP0ERlICCg2kXUUgCxSDoFvlcvfBNmxRe7u7dvXeXtC4Vv6O9rQzsbq5mFSNKlxogpDsz7cm81xTqKqNSAxNbNCNMVny/cNGIAUMIEIOPz0gAOdf4Cw3BBMCNGEAiAOSuWTeKoaQxOaaYazazujL/j9byYsYWSoT9s44Acjh6gNxQMDASAcK7IJCf/R01occFT889UknSX425AdunvHEleSBeujwnFXLEFAgHSKUXx7XcgCYI2sf5R6PmGiKnf0XfpAWogW1n4CXoy9V6WyZODnXwZvtAuIQL2AyZpIPt5GpAgphXWLs+FQDngr5bW54bIDbSIlu56GK2lX80dztzasBpZRvguGbjtsNsKdTgIQxrmIRviSByJ6npwQ1vh1MDEkwAw/ePXTUqey1mXeQGRmLC//v6HglGRDYDeJuz+AcAAP//kg/CUwAAAAZJREFUAwBWJs6TWLs5fAAAAABJRU5ErkJggg==", "trim_dune": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABy0lEQVR4AXSSTSisURjHn/t2b7fu4s69d3GJQj5SJs0CUZSlvYXYKMqCjY+kZGFlI8RGspiFBVaiKGWB0mQas0DvQoPy/bHylZqocX5PzjQvY+r/nvN8nN95nueMI1/83K3JBFqf7U58kaLutAB7KLO4QgorauUstpiwPj2V8kkLaHmqk74fZXJ9EEmmAgKyONngqegTgKSVkmOpCgRkobxVHm4uVZCA+P5kC5ChzkoFOQQ+6ndGlnQ87kv9TlDOqts9IAvxF+cKEA+A20kA+Hx3IYD8h0sKoyVERcStPIB7c8gGDiObydKfjX/q35XM5Ds6m9S8JIC+fKY/ANG1WYk3jWnpv959+Bnq8EtUur63intwIgMT4W8OAav/OUW69ZlDkXhctnd31baf29OYxPY2ZPw1aF3isMubXk1AZU+PzIEhLpfnCOXjR7Z0ezs+BUD0B/5qfziBcPD8OIyps2Amanz4KABfW3RUeo/mtW+eDggihtLdjl8BlIRBUs1Cv/yc61GQ/SPRO/F0UgDTBIKAkAioNNisbY0UNAozIk4ucSvHbgggkkLhkADymdegNZU7aFM9q+OxjAEEueadQwbkmhWZkL47a6reAAAA//92lOSZAAAABklEQVQDAGOD+POEU15JAAAAAElFTkSuQmCC", "trim_raiser": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABZ0lEQVR4AXSRvUrEUBCFZ9fGQrTZDWinsbMIIqK1jQg2ooWNpfgAdpb6CrIP4EvoK4iwIihYmE0jLiSBxSBoF/PNOjG/y547v+fM3JuutPwuTvZTcLy7lba0aLpRACLVpUVHVpy+ELcJNQoY2awJIbLpuqWNagI0Qbg9PIMvH+NQQcA27mpPEAHkagIkIWGrGIWRpnrzswKW+/20q5m/Y299LWUKoXd9JZPLAW4OaiBPZE5JIItrf65jSTZ4fA40jJMftbkA0xecOU1yQPw+PRJ7C8jkIU6RSBBFnVyAIrBGI5JDjNU/wy/CElTAphcbtj1PIPIW5zMbgjCTYcfJdDq+CuBAtivQbOvjWx1bRS5gZGuA+PI00fBgeCNN0ymqAEU2IFHEOPA1bKppITtU4MH3O4j4b7EUm3fuBhpTy3qzLf7vTgxUAAcRQPP9cKTE6rXoqyIXsAIifN/X91AQwvLqgLz1mf0FAAD//+PNf/kAAAAGSURBVAMALpHDk4OPJ9cAAAAASUVORK5CYII=", "trim_snout": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABVklEQVR4AXSQv0oDQRDGR+0ii0lARbFRC4sIYiMIFnYWQipfwEfwFWwtbH0lsdUU6c7TFIH8Y5O0l/sNmWUvdxfy3ex+O/Ob2d2Wml/38SlDd7cPWU2K2pUACjl1zkm77YR9HagSYMXeewGCAAG5ODspTFQCkEQBEAQEsQayf9gRIAivBMBMkoEg1rHGY6/bRuNY0MFeMysAri9vMrr8Pb/I131Xx9eK/EMxZyjfhn8BYG7nqiVHp+e6pRBZYZr8qr9cDjQGAN13XUtNPkCIm9NQiCajuQxn060AIBnRbef1TZrvH8LjAbJp0nV38kwKsO4LP1EfSJI/JBEDCJHOROvOWgEsKI6vgMe9bZre9w9WSQEQF1NIJhMgpqnqTo4C/tO+MAEGoohonkW8TSlgmL8mkH7vswAimeK67pwrgAUQFIPia5FTpQCwQyDIQEReHeFbnsUVAAAA//+kO54CAAAABklEQVQDADGmzSUWUKg8AAAAAElFTkSuQmCC", "trim_rib": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABrklEQVR4AXSRv0tCURTHTw0Whb+gwiAjwRaXhAgnW6qptmhqqbmWliCoqb0W/4CW/oOaasrJoajJQUNJykrBH6mYCC8/B+5DUx9+ve9+7zmfc859ozLkWQ+GLLQ6H7SGhKg9EEAip+6JSXE4HMJ+GGggwCRXGnUBggABCXinejrqAxBEAhAEBLVaLe3G7/QIECSdpw8Q90zLzeaekNQ5119850DeTmP6TifusXFBs06P1QMI++astUZFIteXQlL6+EKTtm6vZDl2pt59cEk989cDMCZVTBKQx8Nz7Qhv+yMtz+GovMz45dPlFRtAdQNgLZRLmkRlxB0w1lMuI4HEnfgySbHeMyM2AGJy/0SKtaoQTBfd1dlzBrxbCqB6tFwQWqS9xO6RQqiMAHEnld+m5jbbbcn/lEfYKICXaqsptM2MgPBev/OCgOBlIhuS9S/q7JwjG+ByjIuB8Bn5bHgIyP/ZSUYK+KrXNJlgTKpRlVEeQitYQ6UA5gGSKhUVREXGAcRIXDCtZyec9uyGqAA2QBAgZMYBtpBLCfJVS4T2yAYYFwgCQkes3DrCN3Fm/QMAAP//USHNlQAAAAZJREFUAwAPNwg5WPmKLQAAAABJRU5ErkJggg==", "mat_blackstone": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABiElEQVR4AUzSwUuCQRAF8GUJgq/EVCoyg+hgkF26FEH3/nXPgUTeyjIiUsISgsD8bQx8wnNnZ957M7v75Yvzy9XpSa/guNNbwV5zZyUfsbr9zfVtyduryeXlcpqqqluw2UypddBNh0f9NH+dJj+xuhi2Gq3CXf5+FU6ef/wHjBCsIWYoB4RWwKk2thOTLEDUJWCPaE8I9u12I72/jdLPZ0rByQJEBETY3R8Ugkm+F/NECA/3wyLGDWRkIpBEJBIzZ3I3HKbZbFHExi759dFxcpAJYfL4lF4mY7UiQLYxOrHYxI7e6mynLMHEeDqFWN6LIIeJF+mfXZXbV4diIAiEM2Ecy6XFaz2PR+V+gl++A8+CJKmb2NmNbTU6Y7X6VHjZn24KYE8AYiJj9/qDVL9wGpzyjDobF5i4HB0R1NyRC4bYmxovV+vPWDLARE5nJvKO4XUgjmU6tUwANjro5iVcGhN5YGINoVij8gqEoEMQEZDrRsaWB+YaZyP5BkIc5w6SY9RNCEHdtH8AAAD//5Owx9QAAAAGSURBVAMAxTL60c+Zr9EAAAAASUVORK5CYII=", "mat_breeze_rod": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA4UlEQVR4AaSSLQ7CQBCFBxycgANU8qNJAMMNMLhqBBdAERSnwOAwKFB1FDwNBFUIkjOAKHmTPFL6w25Dk0nF7vftm90py59fYcFwvIh67jziuYUEgN12QzpOV1qDqUqsBYBH/bocrk/Zh74E61kJKawEhC+3qsK75URhKwFgxPZOL1kFG4nDRgFhxk7CPwWA4z1nwbkCwoi9PXqp2ABZqUsEzJ4B87YJJP9fAsCMbQND9hEQZmzTyYBRKsBoMnZ8SLDBVCpo1hy5PyqpITHBWFeBH54zhwQbTKUC9Jv3zibBGwAA///n71XsAAAABklEQVQDANSsfiEy46WCAAAAAElFTkSuQmCC", "mat_cobbled_deepslate": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABmklEQVR4AUzToW5CQRAF0MlKqCiCilaUJsVQgwDRIEgFBlPPH/ALfCMCUw+CiiKApGApZ5MhJRl2Z/beuXfnvVem08+LGA7fL/P5/DIeT2pulS8Wi4uAmc1m9UzdXpS4/k6n8/U/4ng8RrPZCPn5/ButViv2+32sVl+1djic6lrB1z952e1+Aviax3a7q4DMkTeb71stGxNKbGk07qLdfojJ5CN6vdd4empHt/tSa4AaawhnlSPnvoxGw+j336pVBLYEZ4BUkZKgOQ5B1y1srtdrmEC0SRIAR8CDQb+66nQ6IIEDV4eokndVTLXn58dAMETunBGUp1hBZJXlJGrozlZKVgTnGsmFvLi/O7GIxLZ7WoERKSMIYnIhv80AWEEg3d83besj1CwJVIXZEKozQBAOEkhJLckI/4fpjEJJ5SRqkvNQE4A5TDNzrqZJdQBEyQyEQzMxGyHPYdpn4BVWqUo0YVUT3wGSx6ZOjbJwDo9XHegI5ImwKke0spwDlSMTgfcJFIkDHa1UdV4uV/XNVOeSsqnDEyHmRfsDAAD///t19qUAAAAGSURBVAMAgQqBlUzt8ScAAAAASUVORK5CYII=", "mat_cobblestone": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAElBMVEW1tbWmpqaIh4hubW1hYWFSUlLm8qFQAAAAcUlEQVR42gVAARGDMAz8MAMjh4CSLwIWIgDSIGAD/1p2iPk5pTfFOW3QLR3nGrrGQxSLTL1wp2TJ3PF6W/yaOjSV9eEB2y3a4omQPSerG4f6biMXkP0a8X2DMdpytQkuIWuY49CuziJmclhoIcsjUvgH41gVHD61kt4AAAAASUVORK5CYII=", "mat_copper_block": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAGFBMVEXjgmzWe1vIdFbCa0yyYkenWkCaUDiQSTE/4tshAAAAeUlEQVR42hXMwQ3CMBAEwN0tILlLAYgg8QcBDVjQP/xBchrANuLN4XznMQJpwHSRdkenzy4stZgeEFM02yYKz+rSUBUBszlMKKTGBYrW4Y2scE5jHiCao0MRaWOOqIKjcD15tzrE18VUPNfUZdN+gVfIP6f9+XY9/AEjBS3TYVj+zAAAAABJRU5ErkJggg==", "mat_end_stone": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABwElEQVR4AVTTMW8TQRAF4NGKYi1RHJILTkoROuj4n2n5CfwEaipAFBBo0CEKzkWEGwRXIHxFJGe+TdZRLK1vZ+bNe2937srPX6+P3368asv+z/83R0uux+/fXhw/f7hoGHn1HpfDvyX8No+HGIYh5q9T7K92MZ6dn+JaI+p2EzCwy7LEs5cvWlwkO1jjukasvw+NpAM1dww8UTWCZf99/1D1bBOdpAM1c2Y93Y4P3JVuj7X6aHNbTJIn56NUUNGItG43Me+mqImbPk5NqNRMsszaen1oRYrU5RpL/g1JuubR5Fa4GiFXshbUKLmD6dNlOz8SdtVdmGfH2RNGVgA1N0upoLjmE9lKKe0ueetwXMHNOakel5oAYHacE0HNY2GX//LuUqpd9HJ1aLbVO2mhgk1Drffz5kqDHGXHaCLpDqMckkKFrb+7/enlUATSQM0euImkO7E9kUKlA5FJclTzaECW2PtCRGzBwRfNGIEU7BVMA8ji0FHqnTqH3VGbgkYJ4JrK6905NSIbn4+nb0EzMVhjLkYisDTPu9s3zES6O66IwGgmhtiESk1bc85Vcs25A2ukaq+RqjvoOETurtaIGwAAAP//rqzalgAAAAZJREFUAwCG60S19PlwygAAAABJRU5ErkJggg==", "mat_mossy_cobblestone": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACLElEQVR4AUyTT0sbURTFD49CZzFtEkiLicFqFyYUm0VbhC4LBemqIBZKoYsYXLpypbgV3bnwO2TlxkUQyQdQRFyoSHThP+IfRJhEB4mgjPldGTHweG/uO/fec859caOTP6Lh/9+jSqVi69/40zcxzlPzf6KJmeEIXKlUiuZm56JqtWpY4q7ZaGvk17gSiYROjk9UzA6Jn5f01PsxrbvbBwVhoP63Q2rd17W3v6ftrW2tra7qnRuUS7wqgLdgz4cenZ2d2nemK6WLyytLbod6jlNkfXdJ2Wy3xRzoWq3GZlWvtGNnqpNI57QG1GhuKJnz1FfI2E4RYq7VaumN7xs1Au1mW4Offts3laB8E4YWS/kpQmKnGDJduVy26pliaNVJRgpFX4e9okG+Py9ieAEzdtgVO34ZA5Lqmw3TCxAz0UgRrzsQdBeXF8xIKPjhgGAK1gEmyGIiADljJpIw86Vu4hTHfHIdATqQVPiSMxn71ysmC50x5Vg3JuML0sh1dPE6M6fL0cHT2CiWS34TVDkzifOLgKNRv/OPlMwH1sShnzFhjOdLmIMUCrNgRycw3FEFHIx4gI4AQJIAYI7XYQT9WBL3jJI7Gv78PKavfSP2ch0dSACMYVAH2PU+/fyMkcdEMI6GmMdT5uzoxJvn2WIYDnMR/wfwIY5ThIYscEhzGASYnQDJsDisn5uJAIlxhwzOyIgnZRLowGgAAGRUANFOt/iOF1n+O22vkoawfwQAAP//nrdtngAAAAZJREFUAwC+qW+OdQPtZwAAAABJRU5ErkJggg==", "mat_netherrack": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABrklEQVR4AUzTXUpCQRQH8ONAV6gsyzTIgoweeq0dtIN6agVtoPVGBUEQpViKoD7c/A2NGNxm5v91zpx7Tffdbv0wGNTWu36/fry6qq1PNze1x9lz2+tlzr7gfKna3Y29ZjOOOp1oVlV8TSbxs1zGy+dnTGazaG1vZ6xd1/E8GoU/ON1iOo3UPziAZaEgIYDGYpGNxLB6FS4Ex9xttWJwdhap025nM6FqQva3tkJnF8fH9KGIPex7OAxmITxpOB7HZgiCgAl+fnKSryIJphOFaH7n80iv7+8xXIVIA2idgJkJ54w3F0Z7mG4TUQHmq3uPGw1QvH185GAHvM6EOzMrYE0GobJOTN/9GZBWuHubgTclCC5ISHJQGXl9eroekHYZ4R4Goa4ALx0miUCkRKuzbgysGBUqe6sQRZJ3zERgYMjNB1eC4Uzm5HFOJgnUCUCQvY9GFzjBcPOAmVNvZ4c8kla0bEhEzPbuLYRKCJ2BXx4eBl5hbyX5urTJbEVutizAQ1c0m3zyBgpBiDRhVZlg2lZRAdpyJV3mD0nbCGKks2v5dJtVBV7/sIRk4P/fHwAAAP//qm2/VwAAAAZJREFUAwBKsEH1oyBV8AAAAABJRU5ErkJggg==", "mat_prismarine": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABnUlEQVR4AUzTLUtEURAG4MMBQawqCGJZgwhiEdRiWINB8xaDP8BsMRr9AxarWDarzQ0WP7CIIAa3yILgWkUwrPsMzKIw3jvzfsx7zmXr3tnJYOv4YHD60BkcXrUH2Zs1j/ZjBtPDzPS4qpbh3+/Pd7l5fSmPT3flo9ctrc2dqLHxidKYmirdfr+sLK8FNqQH17P39Vnq+9tzmZtfKp5IxAQMkfKJbNHudiu4lsGrwcbCovdIQIxsMDPbiK16yXDhFjKztBqoHHJGZqAQ9dLhpZnjMYw7MEQ2RLSZuzLT4zCX1jHx2tcXpd7ed2gjqiFiCtdXm6PLM4MjS8JMuio6UGMorq3IvoDyTsg8xVKNjkCgyWhAQmRfgRCHuXfLHAUed0CoQZZidnI6vj2yzYQ4SlozXHgFEmsA3JlkDyfEIZLE3TCCRYK8SENHcWYgQ0WchnrHS15F5ppiZCRlBpeIof5/GqbVP5dGQKxXjiKqbUSMLEoOvoojeAHa5AL1Pm8eLUVMcOCZKH5MogFtShES0/PLdvxG9JJJi4/rHv4AAAD//z6wPv4AAAAGSURBVAMAdImQxFGT8BkAAAAASUVORK5CYII=", "mat_purpur_block": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABOklEQVR4AWzSvU4CURDF8ZstKFQqay0tsLEj1j6L70PjO/gMvACtiQmlFTQihVmVj8QAv0mGXDaQ/DMz5xw2u3NvM3md7MYv452K7NXR8yh0fSKT8Jt22Zb197osPhZB9mr/4qqkb0bm1HL4NQfK9nerHOnOjK6Wc9O/7vODFA3Z87OvdT3iDTRJhterVWn/flI+qTJ8YuxAkyIDNNiBSpPJXkW8AROEGks0p6eCljTTt2nZ/G+OfLXL6FWfkL65m/OQZvg0LIPH+3Jzdxt18DCIni6ghnfQ5ZAzP3bgTPOMVczf5/yTeyAHPgSOx5gLIqJ32VPOUmdjiQTLUf1DRS5Rn7paZ+MTCAwI1zOthm/OTLwBASnWvZto9sfap+HkAYQ65BjzIvFQ++a4B874HALuwexzVtDN8PcAAAD//+RpOMAAAAAGSURBVAMAHP5vcKGX28cAAAAASUVORK5CYII=", "mat_sandstone": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABtElEQVR4AXzTu0ucURAF8OGSFJu4BpZgNBCIEFMEUiSFrb1/rZWNla2CFoKoKyj42PW1qKtuoaDfb+SKWLhwnDuvc8/Mdy0XZ6uPb9E7XMoY+x4OuguP5e7yKC56W4n+9mrAYL/7YoeDfoAYW8G/PjmOcrCxHOe7a4mr02483N0knEFu1O9lzLlCDsr07Hz4fR6bih9/52Liz7+EOIi/jvFrvXwhSbA1ORUk8clTdLq5Hp3p3/Ewus0x5NTVen5R6IYqs9Vqx/i376H59qYnHaPRMMQ5rHi7M8mNJMCEWWSwtxP2oqj6LJL762HI8/dWFplngjw1fyjRaBfmgyYcGimkTI24MSy0SCjikK3ZbVRB7qD5Mqx43QcifTmCZs6HT2M5r3OdsY6jOZU0+5BH7rJidgeQqI0KqCMXnI1gierAPlIBdvAwjEGRBjIR+azOGihCogbJyw40uEnh11//wzI1k/1xvJ3vgFo5JF8mZvKNlFxO81Q1WhBUMjdoZhG5WQ5J5+dMPrxCejQ/jY3JoNuNYh+1yXhulkNCHfLcAWnmA/9MFkoREjEqjefbk55fq1GN6AkAAP//DJYtYwAAAAZJREFUAwAblqqsQ2zEEgAAAABJRU5ErkJggg==", "mat_terracotta": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABYElEQVR4AWzTXU7DQAwEYNcNP9dCiFMgxKUQ4oGDAk037OfWVZGoNMpmPB7Pbrb58fq0vb88/gGu8fb8uH2+PGze/9NlzN9tjLjZ5wX7XcQy1hhjRGbEtl8CRzOpyWWh6jF/XyPjcByF78Pp+ROzc9ZyOqgdtwi4z1FmBqiVallOjpIQ9BQTTcabBowZek7/SIIGEubQik8IOCYMr1EpCEC8iqSb9Rk4idZcagu0DcazfopP30msZ6EOFXd3k7Vva0nUaBinfQGina1x3h1qw7up6kzq7DjaF3eO1riGQ5UA1DTSNtLeODsDjtamgJqnGqh1Milw9RmvXU1pEEvlaWLz9JqZ5LqOunW74xpIU3bnNWFHxwENM9CbYosJCBPdTFNBA6gDzhBwPrWFjmYaKDhEETWc4C1CKjU9/iNlYIJ4XMEk0NINjDW5fWp0+i73AKnBFgjBJJyvQaypdYzVfgEAAP//LT+uAQAAAAZJREFUAwAVRjeyENpPJQAAAABJRU5ErkJggg==", "mat_diamond": "data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAQABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAABAUGB//EACQQAAIBBAEEAgMAAAAAAAAAAAECAwQFBhESAAcIIRMxIkGR/8QAFQEBAQAAAAAAAAAAAAAAAAAABAb/xAAiEQABAgMJAAAAAAAAAAAAAAABAhEABBIDExUhIkGB0eH/2gAMAwEAAhEDEQA/AMm8YOydP3FNXkGSyTwY/SOYVjjcwtVSlfZErKVVE9bI2eTIuhy30H5Qdo7f25yMy43PLPZZCsfxyS/LJA/BSeTAAaO9jevv+UHjf3hp8bw6TDbjcaW0Rw1rVlPVvFvYdQHVj+W/appeOv37IBVb5JZ/Z79SrbrTe4r3UVMwmq6qKNhHxVVCaJ46bYII4AaA+99KoRdOT28TC5uexMWSUmh8y2lmPnIbeP/Z", "trim_coast": "data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAQABADASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABgf/xAAlEAACAQMDAwUBAAAAAAAAAAABAgMEBREGEiEAEzEHCBQiI0H/xAAUAQEAAAAAAAAAAAAAAAAAAAAD/8QAHBEAAgAHAAAAAAAAAAAAAAAAABECEhMhYeHx/9oADAMBAAIRAxEAPwCL+2TSluut+muV5kEUePj0hYcGRjgnkeP5kHj7cHx031npiwxafuvetlLbRUztI1QtPG71Pb3fgCzqA7Nlgy5c7TgEAno/ojVWlrDZ7ZRUVbSPXQgu8lPLJGHhccJIGA/cHfkqNuNud2T0b9V9evX0NNQUUksTqrRlRIrxCMNuWRVx9ZuSpceVAAxyS1pGCo6mO6P/2Q==", "trim_bolt": "data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAQABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAwUGB//EACUQAAIBAwMEAgMAAAAAAAAAAAECAwQFEQYSIQAHIjEIYRNBUf/EABQBAQAAAAAAAAAAAAAAAAAAAAX/xAAjEQABAgMJAQAAAAAAAAAAAAABAhESMYEAAwQTIVFhcZHw/9oADAMBAAIRAxEAPwDIPjBpqB6q5aruQjjipqd46R5UBG88FgCMnJwmVPG5sjGenHePRGmZYqi5GmW1VitKGmhKiOVl5YkZIPLAlvbf3oXZ3uBYaSwUdjIhhljWMvDJ4K8qbvMEfvljn7++pvvjqxauOG2UUo/GybRtb0gJJJ8s+TE+/Y6KIK75wSFfUZqvxZ5KsrDwkBSJvpt6FRdiETBn/9k="};
+const TRIMS = [{"id": "sentry", "name": "Sentry", "location": "Pillager Outpost", "chance": 25, "chestType": "chest", "dupMaterial": "Cobblestone", "dupKey": "cobblestone", "lore": "Hidden in pillager outpost chests.", "biome": "Overworld", "dimension": "overworld"}, {"id": "dune", "name": "Dune", "location": "Desert Pyramid", "chance": 14.3, "chestType": "chest", "dupMaterial": "Sandstone", "dupKey": "sandstone", "lore": "Found inside the hidden chamber of desert pyramids.", "biome": "Desert", "dimension": "overworld"}, {"id": "coast", "name": "Coast", "location": "Shipwreck", "chance": 16.7, "chestType": "chest", "dupMaterial": "Cobblestone", "dupKey": "cobblestone", "lore": "Tucked away in sunken shipwreck chests.", "biome": "Ocean", "dimension": "overworld"}, {"id": "wild", "name": "Wild", "location": "Jungle Temple", "chance": 33.3, "chestType": "chest", "dupMaterial": "Mossy Cobblestone", "dupKey": "mossy_cobblestone", "lore": "Lurking within jungle temple treasure chests.", "biome": "Jungle", "dimension": "overworld"}, {"id": "ward", "name": "Ward", "location": "Ancient City", "chance": 5, "chestType": "chest", "dupMaterial": "Cobbled Deepslate", "dupKey": "cobbled_deepslate", "lore": "Rare and dangerous \u2014 found in the depths of ancient cities.", "biome": "Deep Dark", "dimension": "overworld"}, {"id": "silence", "name": "Silence", "location": "Ancient City", "chance": 1.2, "chestType": "chest", "dupMaterial": "Cobbled Deepslate", "dupKey": "cobbled_deepslate", "lore": "Incredibly rare. Only the bravest survive ancient cities to claim it.", "biome": "Deep Dark", "dimension": "overworld"}, {"id": "eye", "name": "Eye", "location": "Stronghold", "chance": 10, "chestType": "altar/library chest", "dupMaterial": "End Stone", "dupKey": "end_stone", "lore": "Guaranteed in library chests and found in altar chests of strongholds.", "biome": "Underground", "dimension": "overworld"}, {"id": "vex", "name": "Vex", "location": "Woodland Mansion", "chance": 50, "chestType": "chest", "dupMaterial": "Cobblestone", "dupKey": "cobblestone", "lore": "A 50% shot in the rare woodland mansion chests.", "biome": "Dark Forest", "dimension": "overworld"}, {"id": "tide", "name": "Tide", "location": "Ocean Monument", "chance": 20, "chestType": "Elder Guardian drop", "dupMaterial": "Prismarine", "dupKey": "prismarine", "lore": "Dropped by Elder Guardians guarding ocean monuments.", "biome": "Ocean", "dimension": "overworld"}, {"id": "snout", "name": "Snout", "location": "Bastion Remnant", "chance": 8.3, "chestType": "chest", "dupMaterial": "Blackstone", "dupKey": "blackstone", "lore": "Plundered from bastion remnant chests in the Nether.", "biome": "Nether", "dimension": "nether"}, {"id": "rib", "name": "Rib", "location": "Nether Fortress", "chance": 6.7, "chestType": "chest", "dupMaterial": "Netherrack", "dupKey": "netherrack", "lore": "Concealed within the dangerous halls of nether fortresses.", "biome": "Nether", "dimension": "nether"}, {"id": "spire", "name": "Spire", "location": "End City", "chance": 6.7, "chestType": "chest", "dupMaterial": "Purpur Block", "dupKey": "purpur_block", "lore": "Reward for conquering end cities beyond the main island.", "biome": "The End", "dimension": "end"}, {"id": "bolt", "name": "Bolt", "location": "Trial Chamber", "chance": 6.3, "chestType": "standard vault", "dupMaterial": "Copper Block", "dupKey": "copper_block", "lore": "Found in standard vaults inside trial chambers. Requires a trial key.", "biome": "Underground", "dimension": "overworld"}, {"id": "flow", "name": "Flow", "location": "Trial Chamber", "chance": 22.5, "chestType": "ominous vault", "dupMaterial": "Breeze Rod", "dupKey": "breeze_rod", "lore": "Found in ominous vaults \u2014 need an ominous trial key from bad omen.", "biome": "Underground", "dimension": "overworld"}, {"id": "wayfinder", "name": "Wayfinder", "location": "Trail Ruins", "chance": 8.3, "chestType": "suspicious gravel", "dupMaterial": "Terracotta", "dupKey": "terracotta", "lore": "Brushed out of suspicious gravel in trail ruins structures.", "biome": "Various", "dimension": "overworld"}, {"id": "raiser", "name": "Raiser", "location": "Trail Ruins", "chance": 8.3, "chestType": "suspicious gravel", "dupMaterial": "Terracotta", "dupKey": "terracotta", "lore": "Brushed out of suspicious gravel in trail ruins structures.", "biome": "Various", "dimension": "overworld"}, {"id": "shaper", "name": "Shaper", "location": "Trail Ruins", "chance": 8.3, "chestType": "suspicious gravel", "dupMaterial": "Terracotta", "dupKey": "terracotta", "lore": "Brushed out of suspicious gravel in trail ruins structures.", "biome": "Various", "dimension": "overworld"}, {"id": "host", "name": "Host", "location": "Trail Ruins", "chance": 8.3, "chestType": "suspicious gravel", "dupMaterial": "Terracotta", "dupKey": "terracotta", "lore": "Brushed out of suspicious gravel in trail ruins structures.", "biome": "Various", "dimension": "overworld"}];
+
+function img(key, size=28) {
+  const src = IMGS[key] || `${GH}/${key.replace(/^(trim_|mat_)/,'').replace(/_armor_trim/,'')}.png`;
+  return `<img src="${src}" alt="${key}" style="width:${size}px;height:${size}px" onerror="this.style.opacity=0">`;
+}
+
+function getRarityClass(c) {
+  if (c < 2) return 'chance-very-rare';
+  if (c < 8) return 'chance-rare';
+  if (c < 20) return 'chance-uncommon';
+  return 'chance-common';
+}
+function getRarityLabel(c) {
+  if (c < 2) return '💀 Legendary';
+  if (c < 8) return '🔴 Very Rare';
+  if (c < 20) return '🟡 Uncommon';
+  return '🟢 Common';
+}
+function getDimBadge(dim) {
+  const m = { overworld:['dim-overworld','🌿 Overworld'], nether:['dim-nether','🔥 Nether'], end:['dim-end','🌌 The End'] };
+  const [cls, label] = m[dim] || m.overworld;
+  return `<span class="dim-badge ${cls}">${label}</span>`;
+}
+function getLocIcon(biome) {
+  const m = {Desert:'🏜️',Ocean:'🌊',Jungle:'🌴','Deep Dark':'🕯️',Underground:'⛏️','Dark Forest':'🌲',Nether:'🔥','The End':'🌌',Various:'🗺️',Overworld:'🌿'};
+  return m[biome] || '📦';
+}
+function getSourceLabel(t) {
+  if (t.chestType === 'Elder Guardian drop') return 'Kill Elder Guardian';
+  if (t.chestType === 'suspicious gravel') return 'Brush suspicious gravel';
+  if (t.chestType === 'standard vault') return 'Vault (Trial Key)';
+  if (t.chestType === 'ominous vault') return 'Ominous Vault (Ominous Key)';
+  return 'Open chest';
+}
+function calcProb(chance, n) {
+  return ((1 - Math.pow(1 - chance/100, n)) * 100).toFixed(1);
+}
+
+// Recipe layout:
+// Slot 1=D  2=D  3=D
+//      4=D  5=M  6=D
+//      7=D  8=TRIM 9=D
+// 7 diamonds (slots 1,2,3,4,6,7,9), center=material, slot8=trim template
+// Output = duplicate trim template
+function buildCraftGrid(trim) {
+  const D    = `<div class="craft-cell">${img('mat_diamond')}</div>`;
+  const MAT  = `<div class="craft-cell">${img('mat_' + trim.dupKey)}</div>`;
+  const TRIM = `<div class="craft-cell">${img('trim_' + trim.id)}</div>`;
+  const dSrc = IMGS['mat_diamond'] || '';
+
+  return `
+  <div>
+    <div class="craft-title">Duplication Recipe</div>
+    <div class="craft-wrap">
+      <div class="craft-grid">
+        ${D}${D}${D}
+        ${D}${MAT}${D}
+        ${D}${TRIM}${D}
+      </div>
+      <div class="craft-arrow">→</div>
+      <div class="craft-right">
+        <div class="craft-output">${img('trim_' + trim.id, 34)}</div>
+        <div class="craft-x2">×2</div>
+        <div class="craft-diamond-list">
+          <div class="dl-row"><img src="${dSrc}" alt="diamond"> <strong>7×</strong> Diamond</div>
+          <div class="dl-row">${img('mat_'+trim.dupKey,14)} <strong>1×</strong> ${trim.dupMaterial}</div>
+          <div class="dl-row">${img('trim_'+trim.id,14)} <strong>1×</strong> Template</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+let found = JSON.parse(localStorage.getItem('trimfinder_found') || '[]');
+let currentFilter = 'all';
+
+function save() { localStorage.setItem('trimfinder_found', JSON.stringify(found)); }
+function updateProgress() {
+  const c = found.length, t = TRIMS.length;
+  document.getElementById('progressCount').textContent = `${c} / ${t}`;
+  document.getElementById('progressBar').style.width = (c/t*100)+'%';
+}
+function applyFilter() {
+  document.querySelectorAll('.card').forEach(card => {
+    const isFnd = found.includes(card.dataset.id);
+    card.classList.toggle('hidden',
+      currentFilter === 'found' ? !isFnd :
+      currentFilter === 'missing' ? isFnd : false
+    );
+  });
+}
+
+function buildCards() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  TRIMS.forEach((trim, idx) => {
+    const isFnd = found.includes(trim.id);
+    const trimSrc = IMGS['trim_'+trim.id] || `${GH}/${trim.id}_armor_trim_smithing_template.png`;
+
+    const card = document.createElement('div');
+    card.className = 'card' + (isFnd ? ' found' : '');
+    card.dataset.id = trim.id;
+    card.style.animationDelay = (idx * 0.03) + 's';
+
+    const attemptsLabel = trim.chestType.includes('gravel') ? 'blocks brushed'
+      : trim.chestType.includes('drop') ? 'kills'
+      : (trim.chestType.includes('vault') || trim.id === 'bolt' || trim.id === 'flow') ? 'vaults opened'
+      : 'chests opened';
+
+    card.innerHTML = `
+      <div class="found-badge">✓</div>
+      <div class="card-header">
+        <div class="card-img-wrap">
+          <img src="${trimSrc}" alt="${trim.name}" onerror="this.style.opacity=0">
+        </div>
+        <div>
+          <div class="card-name">${trim.name}</div>
+          <div class="location-banner">${getLocIcon(trim.biome)} ${trim.location}</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="meta-row">
+          <span class="chance-badge ${getRarityClass(trim.chance)}">${getRarityLabel(trim.chance)} — ${trim.chance}%</span>
+          ${getDimBadge(trim.dimension)}
+        </div>
+        <div class="source-row">
+          <span class="source-label">How to get</span>
+          <span class="source-val">${getSourceLabel(trim)}</span>
+        </div>
+
+        <div class="calc-box" onclick="event.stopPropagation()">
+          <div class="calc-title">Probability Calculator</div>
+          <div class="calc-row">
+            <div class="calc-number-wrap">
+              <button class="calc-btn" data-dir="-1" data-id="${trim.id}">−</button>
+              <input class="calc-input" type="number" min="1" max="9999" value="1" id="inp-${trim.id}">
+              <button class="calc-btn" data-dir="1" data-id="${trim.id}">+</button>
+            </div>
+            <span class="calc-label">${attemptsLabel}</span>
+          </div>
+          <div class="calc-result" id="calc-${trim.id}">~${calcProb(trim.chance, 1)}% <span>chance of finding at least one</span></div>
+        </div>
+
+        ${buildCraftGrid(trim)}
+        <div class="lore-text">${trim.lore}</div>
+      </div>
+    `;
+
+    // Toggle found on card click (not on calc box)
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.calc-box') || e.target.closest('.craft-wrap')) return;
+      const i = found.indexOf(trim.id);
+      if (i > -1) { found.splice(i,1); card.classList.remove('found'); }
+      else { found.push(trim.id); card.classList.add('found'); }
+      save(); updateProgress(); applyFilter();
+    });
+
+    // +/- buttons
+    card.querySelectorAll('.calc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const inp = document.getElementById('inp-' + trim.id);
+        let v = parseInt(inp.value) || 1;
+        v = Math.max(1, Math.min(9999, v + parseInt(btn.dataset.dir)));
+        inp.value = v;
+        document.getElementById('calc-'+trim.id).innerHTML =
+          `~${calcProb(trim.chance, v)}% <span>chance of finding at least one</span>`;
+      });
+    });
+
+    // Manual input
+    card.querySelector('.calc-input').addEventListener('input', e => {
+      const v = Math.max(1, parseInt(e.target.value) || 1);
+      document.getElementById('calc-'+trim.id).innerHTML =
+        `~${calcProb(trim.chance, v)}% <span>chance of finding at least one</span>`;
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    applyFilter();
+  });
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (confirm('Reset your entire collection? This cannot be undone.')) {
+    found = [];
+    save();
+    currentFilter = 'all';
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-filter="all"]').classList.add('active');
+    buildCards();
+    updateProgress();
+  }
+});
+
+buildCards();
+updateProgress();
+</script>
+</body>
+</html>
