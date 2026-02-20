@@ -2,7 +2,7 @@
 
 A fancy, dark-themed checklist site for Minecraft armor trim collectors. Track which smithing templates you've found, see exactly where to get them, calculate your odds, and view the duplication recipe — all in one place.
 
-**Live site:** [[muinainenbanaani.github.io/TrimFinder](https://trim-finder.vercel.app)]([https://muinainenbanaani.github.io/TrimFinder](https://trim-finder.vercel.app))
+**Live site:** https://trim-finder.vercel.app
 
 ---
 
