@@ -341,7 +341,7 @@ let adsDisabled = localStorage.getItem('trimfinder_ads_disabled') === 'true';
 function applyAdsState() {
   adSlots.forEach(el => el.classList.toggle('hidden-ad', adsDisabled));
   adToggle.classList.toggle('ads-off', adsDisabled);
-  adLabel.textContent = adsDisabled ? 'Ads Off ✓' : 'Disable Ads';
+  adLabel.textContent = adsDisabled ? 'Ads Off ✓ (not supporting)' : 'Disable Ads';
 }
 
 adToggle.addEventListener('click', () => {
