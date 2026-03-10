@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<link rel="icon" type="image/png" href="images/favicon.png">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-adsense-account" content="ca-pub-1624961508953638">
+<title>Trim Finder — Minecraft Armor Trims Checklist</title>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1624961508953638" crossorigin="anonymous"></script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0a0c0f;
+    --surface: #111418;
+    --surface2: #181d23;
+    --surface3: #1e242d;
+    --border: #2a3040;
+    --gold: #f0c040;
+    --gold2: #c8901a;
+    --gold-glow: rgba(240,192,64,0.15);
+    --text: #d4c9b0;
+    --text-muted: #7a8090;
+    --green: #4caf50;
+    --red: #e05555;
+    --craft-bg: #1a1510;
+    --craft-cell: #2e2416;
+    --craft-border: #4a3820;
+    --craft-outer: #120f08;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(91,143,212,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 20%, rgba(240,192,64,0.04) 0%, transparent 60%);
+  }
+
+  /* ===== ADS TOGGLE SLIDER (top-left) ===== */
+  #ads-toggle-wrap {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 6px 14px 6px 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    transition: border-color 0.2s;
+    user-select: none;
+    cursor: pointer;
+  }
+  #ads-toggle-wrap:hover { border-color: var(--gold); }
+  #ads-toggle-wrap:hover .ads-toggle-label { color: var(--gold); }
+
+  /* The actual pill toggle */
+  .ads-toggle-track {
+    width: 36px;
+    height: 20px;
+    background: #333a47;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: background 0.25s, border-color 0.25s;
+    flex-shrink: 0;
+  }
+  .ads-toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    transition: transform 0.25s cubic-bezier(0.34,1.4,0.64,1), background 0.25s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+  /* ON = ads disabled */
+  #ads-toggle-wrap.ads-off .ads-toggle-track {
+    background: rgba(76,175,80,0.25);
+    border-color: rgba(76,175,80,0.5);
+  }
+  #ads-toggle-wrap.ads-off .ads-toggle-thumb {
+    transform: translateX(16px);
+    background: var(--green);
+  }
+  .ads-toggle-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  #ads-toggle-wrap.ads-off .ads-toggle-label { color: var(--green); }
+
+  /* Fade ads in/out */
+  .ad-slot { transition: opacity 0.4s ease, max-height 0.4s ease; overflow: hidden; }
+  .ad-slot.hidden-ad { opacity: 0; max-height: 0 !important; pointer-events: none; }
+
+  /* Ad banner wrapper styling — blends with theme */
+  .ad-banner {
+    max-width: 960px;
+    margin: 18px auto 0;
+    padding: 0 20px;
+  }
+  .ad-banner-inner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .ad-banner-inner::before {
+    content: 'Advertisement';
+    position: absolute;
+    top: 4px;
+    left: 10px;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  /* Side rail ad */
+  .ad-rail {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 12px;
+    width: 160px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
+  .ad-rail::before {
+    content: 'Ad';
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  @media (max-width: 1300px) { .ad-rail { display: none; } }
+
+  /* HEADER */
+  header { text-align: center; padding: 48px 20px 28px; border-bottom: 1px solid var(--border); position: relative; }
+  header::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .header-icon { font-size: 44px; margin-bottom: 10px; display: block; filter: drop-shadow(0 0 20px rgba(240,192,64,0.5)); }
+  h1 { font-family: 'Cinzel', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: var(--gold); text-shadow: 0 0 40px rgba(240,192,64,0.4), 0 2px 4px rgba(0,0,0,0.8); letter-spacing: 0.05em; }
+  .subtitle { margin-top: 8px; color: var(--text-muted); font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* PROGRESS */
+  .progress-section { max-width: 960px; margin: 28px auto 0; padding: 0 20px; }
+  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-family: 'Cinzel', serif; font-size: 0.82rem; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .progress-count { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 600; color: var(--gold); }
+  .progress-bar-bg { height: 8px; background: var(--surface2); border-radius: 4px; border: 1px solid var(--border); overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold2), var(--gold)); border-radius: 4px; transition: width 0.5s ease; box-shadow: 0 0 12px rgba(240,192,64,0.4); }
+
+  /* CONTROLS */
+  .controls { max-width: 960px; margin: 20px auto 0; padding: 0 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .filter-btn { padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s; letter-spacing: 0.06em; text-transform: uppercase; }
+  .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .filter-btn.active { background: var(--gold-glow); border-color: var(--gold); color: var(--gold); }
+  .reset-btn { margin-left: auto; padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s; letter-spacing: 0.06em; text-transform: uppercase; }
+  .reset-btn:hover { border-color: var(--red); color: var(--red); }
+
+  /* GRID */
+  .grid { max-width: 960px; margin: 24px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+
+  /* CARD */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; cursor: pointer; transition: all 0.25s ease; position: relative; overflow: hidden; user-select: none; animation: fadeIn 0.4s ease both; }
+  .card:hover { border-color: rgba(240,192,64,0.45); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.45), 0 0 0 1px rgba(240,192,64,0.08); }
+  .card.found { border-color: rgba(76,175,80,0.55); }
+  .card.found .card-header { background: linear-gradient(135deg, #0d1f0e, #131b14); }
+  .card.hidden { display: none; }
+
+  .found-badge { position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; opacity: 0; transform: scale(0); transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 0 12px rgba(76,175,80,0.6); z-index: 2; }
+  .card.found .found-badge { opacity: 1; transform: scale(1); }
+
+  .card-header { background: var(--surface2); padding: 16px 16px 12px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); transition: background 0.25s; }
+  .card-img-wrap { width: 56px; height: 56px; background: var(--bg); border-radius: 8px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .card-img-wrap img { width: 48px; height: 48px; image-rendering: pixelated; object-fit: contain; }
+  .card-name { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); margin-bottom: 5px; }
+  .location-banner { display: inline-flex; align-items: center; gap: 7px; background: rgba(240,192,64,0.13); border: 1px solid rgba(240,192,64,0.28); border-radius: 6px; padding: 4px 10px; font-size: 0.83rem; font-weight: 600; color: var(--gold); }
+  .card-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .meta-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .chance-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; border: 1px solid; }
+  .chance-very-rare { color: #e05555; border-color: rgba(224,85,85,0.35); background: rgba(224,85,85,0.1); }
+  .chance-rare      { color: #f09040; border-color: rgba(240,144,64,0.35); background: rgba(240,144,64,0.1); }
+  .chance-uncommon  { color: #f0c040; border-color: rgba(240,192,64,0.35); background: rgba(240,192,64,0.1); }
+  .chance-common    { color: #4caf50; border-color: rgba(76,175,80,0.35); background: rgba(76,175,80,0.1); }
+  .dim-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; border: 1px solid; }
+  .dim-overworld { color: #6ec46e; border-color: rgba(110,196,110,0.3); background: rgba(110,196,110,0.08); }
+  .dim-nether    { color: #e86030; border-color: rgba(232,96,48,0.3); background: rgba(232,96,48,0.08); }
+  .dim-end       { color: #c080f0; border-color: rgba(192,128,240,0.3); background: rgba(192,128,240,0.08); }
+  .source-row { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
+  .source-label { color: var(--text-muted); }
+  .source-val { color: var(--text); font-weight: 500; }
+
+  .calc-box { background: var(--surface3); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+  .calc-title { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .calc-row { display: flex; align-items: center; gap: 0; }
+  .calc-number-wrap { display: flex; align-items: center; background: var(--craft-outer); border: 1px solid var(--craft-border); border-radius: 5px; overflow: hidden; }
+  .calc-btn { width: 28px; height: 28px; background: var(--craft-cell); border: none; color: var(--gold); font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; border-right: 1px solid var(--craft-border); }
+  .calc-btn:last-child { border-right: none; border-left: 1px solid var(--craft-border); }
+  .calc-btn:hover { background: #4a3820; color: #fff; }
+  .calc-btn:active { background: #5a4828; }
+  .calc-input { width: 52px; padding: 4px 2px; background: var(--craft-outer); border: none; color: var(--gold); font-size: 0.9rem; font-weight: 700; text-align: center; font-family: 'Inter', sans-serif; }
+  .calc-input:focus { outline: none; }
+  .calc-label { font-size: 0.78rem; color: var(--text-muted); margin-left: 8px; }
+  .calc-result { font-size: 0.82rem; color: var(--gold); font-weight: 700; margin-top: 6px; }
+  .calc-result span { color: var(--text-muted); font-weight: 400; }
+
+  .craft-title { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .craft-wrap { display: flex; align-items: center; gap: 10px; }
+  .craft-grid { display: grid; grid-template-columns: repeat(3, 38px); grid-template-rows: repeat(3, 38px); gap: 2px; background: var(--craft-outer); padding: 5px; border-radius: 6px; border: 2px solid var(--craft-border); flex-shrink: 0; }
+  .craft-cell { width: 38px; height: 38px; background: var(--craft-cell); border: 1px solid var(--craft-border); border-radius: 2px; display: flex; align-items: center; justify-content: center; position: relative; }
+  .craft-cell::after { content: ''; position: absolute; inset: 0; box-shadow: inset 2px 2px 0 rgba(0,0,0,0.4), inset -1px -1px 0 rgba(255,255,255,0.05); border-radius: 2px; pointer-events: none; }
+  .craft-cell img { width: 28px; height: 28px; image-rendering: pixelated; object-fit: contain; position: relative; z-index: 1; }
+  .craft-arrow { font-size: 18px; color: var(--text-muted); flex-shrink: 0; }
+  .craft-right { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .craft-output { width: 44px; height: 44px; background: var(--craft-cell); border: 2px solid var(--gold2); border-radius: 3px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(200,144,26,0.35), inset 2px 2px 0 rgba(0,0,0,0.3); position: relative; }
+  .craft-output img { width: 34px; height: 34px; image-rendering: pixelated; object-fit: contain; }
+  .craft-x2 { font-size: 0.75rem; font-weight: 700; color: var(--gold); text-align: center; }
+  .craft-diamond-list { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; background: var(--craft-outer); border: 1px solid var(--craft-border); border-radius: 5px; padding: 5px 8px; font-size: 0.68rem; color: var(--text-muted); line-height: 1.7; min-width: 76px; }
+  .craft-diamond-list .dl-row { display: flex; align-items: center; gap: 5px; }
+  .craft-diamond-list img { width: 14px; height: 14px; image-rendering: pixelated; }
+  .craft-diamond-list strong { color: var(--text); }
+
+  .lore-text { font-size: 0.78rem; color: var(--text-muted); font-style: italic; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.5; }
+
+  footer { text-align: center; padding: 28px; color: var(--text-muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 12px; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- ===== ADS TOGGLE (top-left fixed) ===== -->
+<div id="ads-toggle-wrap" title="Toggle ads on/off">
+  <div class="ads-toggle-track">
+    <div class="ads-toggle-thumb"></div>
+  </div>
+  <span class="ads-toggle-label" id="ads-toggle-label">Disable Ads</span>
+</div>
+
+<!-- ===== FIXED SIDE RAIL AD ===== -->
+<div class="ad-rail ad-slot" id="ad-rail">
+  <ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-1624961508953638"
+     data-ad-slot="auto"></ins>
+</div>
+
+<header>
+  <span class="header-icon">⚔️</span>
+  <h1>Trim Finder</h1>
+  <p class="subtitle">Minecraft Armor Trims Collector's Checklist</p>
+</header>
+
+<!-- ===== TOP BANNER AD ===== -->
+<div class="ad-banner ad-slot" id="ad-top">
+  <div class="ad-banner-inner">
+    <ins class="adsbygoogle"
+       style="display:block;width:100%;min-height:90px;"
+       data-ad-client="ca-pub-1624961508953638"
+       data-ad-format="auto"
+       data-full-width-responsive="true"
+       data-ad-slot="auto"></ins>
+  </div>
+</div>
+
+<div class="progress-section">
+  <div class="progress-header">
+    <span class="progress-label">Collection Progress</span>
+    <span class="progress-count" id="progressCount">0 / 18</span>
+  </div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+</div>
+
+<div class="controls">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="found">Found</button>
+  <button class="filter-btn" data-filter="missing">Missing</button>
+  <button class="reset-btn" id="resetBtn">Reset All</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<!-- ===== BOTTOM BANNER AD ===== -->
+<div class="ad-banner ad-slot" id="ad-bottom" style="margin-bottom:20px;">
+  <div class="ad-banner-inner">
+    <ins class="adsbygoogle"
+       style="display:block;width:100%;min-height:90px;"
+       data-ad-client="ca-pub-1624961508953638"
+       data-ad-format="auto"
+       data-full-width-responsive="true"
+       data-ad-slot="auto"></ins>
+  </div>
+</div>
+
+<footer>Click any card to mark as found &nbsp;·&nbsp; Progress saves automatically &nbsp;·&nbsp; Created by <a href="https://fi.namemc.com/profile/MuinainenBanaani.1" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:600;transition:opacity 0.2s" onmouseover="this.style.opacity=0.75" onmouseout="this.style.opacity=1">MuinainenBanaani</a></footer>
+
+<script>
+// ===== ADS TOGGLE LOGIC =====
+const adToggle    = document.getElementById('ads-toggle-wrap');
+const adLabel     = document.getElementById('ads-toggle-label');
+const adSlots     = document.querySelectorAll('.ad-slot');
+
+let adsDisabled = localStorage.getItem('trimfinder_ads_disabled') === 'true';
+
+function applyAdsState() {
+  adSlots.forEach(el => el.classList.toggle('hidden-ad', adsDisabled));
+  adToggle.classList.toggle('ads-off', adsDisabled);
+  adLabel.textContent = adsDisabled ? 'Ads Off ✓' : 'Disable Ads';
+}
+
+adToggle.addEventListener('click', () => {
+  adsDisabled = !adsDisabled;
+  localStorage.setItem('trimfinder_ads_disabled', adsDisabled);
+  applyAdsState();
+});
+
+applyAdsState();
+
+// Push AdSense units (safe to call multiple times)
+window.addEventListener('load', () => {
+  if (!adsDisabled) {
+    try {
+      document.querySelectorAll('.adsbygoogle').forEach(() => {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      });
+    } catch(e) {}
+  }
+});
+
+// ===== ORIGINAL TRIM FINDER LOGIC =====
+const GH = "https://raw.githubusercontent.com/MuinainenBanaani/TrimFinder/main/images";
+const IMGS = {
+  // Trim templates
+  "trim_bolt":      `${GH}/bolt_armor_trim_smithing_template.png`,
+  "trim_coast":     `${GH}/coast_armor_trim_smithing_template.png`,
+  "trim_dune":      `${GH}/dune_armor_trim_smithing_template.png`,
+  "trim_eye":       `${GH}/eye_armor_trim_smithing_template.png`,
+  "trim_flow":      `${GH}/flow_armor_trim_smithing_template.png`,
+  "trim_host":      `${GH}/host_armor_trim_smithing_template.png`,
+  "trim_raiser":    `${GH}/raiser_armor_trim_smithing_template.png`,
+  "trim_rib":       `${GH}/rib_armor_trim_smithing_template.png`,
+  "trim_sentry":    `${GH}/sentry_armor_trim_smithing_template.png`,
+  "trim_shaper":    `${GH}/shaper_armor_trim_smithing_template.png`,
+  "trim_silence":   `${GH}/silence_armor_trim_smithing_template.png`,
+  "trim_snout":     `${GH}/snout_armor_trim_smithing_template.png`,
+  "trim_spire":     `${GH}/spire_armor_trim_smithing_template.png`,
+  "trim_tide":      `${GH}/tide_armor_trim_smithing_template.png`,
+  "trim_vex":       `${GH}/vex_armor_trim_smithing_template.png`,
+  "trim_ward":      `${GH}/ward_armor_trim_smithing_template.png`,
+  "trim_wayfinder": `${GH}/wayfinder_armor_trim_smithing_template.png`,
+  "trim_wild":      `${GH}/wild_armor_trim_smithing_template.png`,
+  // Duplicate materials
+  "mat_blackstone":        `${GH}/blackstone.png`,
+  "mat_breeze_rod":        `${GH}/breeze_rod.png`,
+  "mat_cobbled_deepslate": `${GH}/cobbled_deepslate.png`,
+  "mat_cobblestone":       `${GH}/cobblestone.png`,
+  "mat_copper_block":      `${GH}/copper_block.png`,
+  "mat_diamond":           `${GH}/diamond.png`,
+  "mat_end_stone":         `${GH}/end_stone.png`,
+  "mat_mossy_cobblestone": `${GH}/mossy_cobblestone.png`,
+  "mat_netherrack":        `${GH}/netherrack.png`,
+  "mat_prismarine":        `${GH}/prismarine.png`,
+  "mat_purpur_block":      `${GH}/purpur_block.png`,
+  "mat_sandstone":         `${GH}/sandstone.png`,
+  "mat_terracotta":        `${GH}/terracotta.png`,
+};
+const TRIMS = [{"id": "sentry", "name": "Sentry", "location": "Pillager Outpost", "chance": 25, "chestType": "chest", "dupMaterial": "Cobblestone", "dupKey": "cobblestone", "lore": "Hidden in pillager outpost chests.", "biome": "Overworld", "dimension": "overworld"}, {"id": "dune", "name": "Dune", "location": "Desert Pyramid", "chance": 14.3, "chestType": "chest", "dupMaterial": "Sandstone", "dupKey": "sandstone", "lore": "Found inside the hidden chamber of desert pyramids.", "biome": "Desert", "dimension": "overworld"}, {"id": "coast", "name": "Coast", "location": "Shipwreck", "chance": 16.7, "chestType": "chest", "dupMaterial": "Cobblestone", "dupKey": "cobblestone", "lore": "Tucked away in sunken shipwreck chests.", "biome": "Ocean", "dimension": "overworld"}, {"id": "wild", "name": "Wild", "location": "Jungle Temple", "chance": 33.3, "chestType": "chest", "dupMaterial": "Mossy Cobblestone", "dupKey": "mossy_cobblestone", "lore": "Lurking within jungle temple treasure chests.", "biome": "Jungle", "dimension": "overworld"}, {"id": "ward", "name": "Ward", "location": "Ancient City", "chance": 5, "chestType": "chest", "dupMaterial": "Cobbled Deepslate", "dupKey": "cobbled_deepslate", "lore": "Rare and dangerous — found in the depths of ancient cities.", "biome": "Deep Dark", "dimension": "overworld"}, {"id": "silence", "name": "Silence", "location": "Ancient City", "chance": 1.2, "chestType": "chest", "dupMaterial": "Cobbled Deepslate", "dupKey": "cobbled_deepslate", "lore": "Incredibly rare. Only the bravest survive ancient cities to claim it.", "biome": "Deep Dark", "dimension": "overworld"}, {"id": "eye", "name": "Eye", "location": "Stronghold", "chance": 10, "chestType": "altar/library chest", "dupMaterial": "End Stone", "dupKey": "end_stone", "lore": "Guaranteed in library chests and found in altar chests of strongholds.", "biome": "Underground", "dimension": "overworld"}, {"id": "vex", "name": "Vex", "location": "Woodland Mansion", "chance": 50, "chestType": "chest", "dupMaterial": "Cobblestone", "dupKey": "cobblestone", "lore": "A 50% shot in the rare woodland mansion chests.", "biome": "Dark Forest", "dimension": "overworld"}, {"id": "tide", "name": "Tide", "location": "Ocean Monument", "chance": 20, "chestType": "Elder Guardian drop", "dupMaterial": "Prismarine", "dupKey": "prismarine", "lore": "Dropped by Elder Guardians guarding ocean monuments.", "biome": "Ocean", "dimension": "overworld"}, {"id": "snout", "name": "Snout", "location": "Bastion Remnant", "chance": 8.3, "chestType": "chest", "dupMaterial": "Blackstone", "dupKey": "blackstone", "lore": "Plundered from bastion remnant chests in the Nether.", "biome": "Nether", "dimension": "nether"}, {"id": "rib", "name": "Rib", "location": "Nether Fortress", "chance": 6.7, "chestType": "chest", "dupMaterial": "Netherrack", "dupKey": "netherrack", "lore": "Concealed within the dangerous halls of nether fortresses.", "biome": "Nether", "dimension": "nether"}, {"id": "spire", "name": "Spire", "location": "End City", "chance": 6.7, "chestType": "chest", "dupMaterial": "Purpur Block", "dupKey": "purpur_block", "lore": "Reward for conquering end cities beyond the main island.", "biome": "The End", "dimension": "end"}, {"id": "bolt", "name": "Bolt", "location": "Trial Chamber", "chance": 6.3, "chestType": "standard vault", "dupMaterial": "Copper Block", "dupKey": "copper_block", "lore": "Found in standard vaults inside trial chambers. Requires a trial key.", "biome": "Underground", "dimension": "overworld"}, {"id": "flow", "name": "Flow", "location": "Trial Chamber", "chance": 22.5, "chestType": "ominous vault", "dupMaterial": "Breeze Rod", "dupKey": "breeze_rod", "lore": "Found in ominous vaults — need an ominous trial key from bad omen.", "biome": "Underground", "dimension": "overworld"}, {"id": "wayfinder", "name": "Wayfinder", "location": "Trail Ruins", "chance": 8.3, "chestType": "suspicious gravel", "dupMaterial": "Terracotta", "dupKey": "terracotta", "lore": "Brushed out of suspicious gravel in trail ruins structures.", "biome": "Various", "dimension": "overworld"}, {"id": "raiser", "name": "Raiser", "location": "Trail Ruins", "chance": 8.3, "chestType": "suspicious gravel", "dupMaterial": "Terracotta", "dupKey": "terracotta", "lore": "Brushed out of suspicious gravel in trail ruins structures.", "biome": "Various", "dimension": "overworld"}, {"id": "shaper", "name": "Shaper", "location": "Trail Ruins", "chance": 8.3, "chestType": "suspicious gravel", "dupMaterial": "Terracotta", "dupKey": "terracotta", "lore": "Brushed out of suspicious gravel in trail ruins structures.", "biome": "Various", "dimension": "overworld"}, {"id": "host", "name": "Host", "location": "Trail Ruins", "chance": 8.3, "chestType": "suspicious gravel", "dupMaterial": "Terracotta", "dupKey": "terracotta", "lore": "Brushed out of suspicious gravel in trail ruins structures.", "biome": "Various", "dimension": "overworld"}];
+
+function img(key, size=28) {
+  const src = IMGS[key] || `${GH}/${key.replace(/^(trim_|mat_)/,'').replace(/_armor_trim/,'')}.png`;
+  return `<img src="${src}" alt="${key}" style="width:${size}px;height:${size}px" onerror="this.style.opacity=0">`;
+}
+function getRarityClass(c) {
+  if (c < 2) return 'chance-very-rare';
+  if (c < 8) return 'chance-rare';
+  if (c < 20) return 'chance-uncommon';
+  return 'chance-common';
+}
+function getRarityLabel(c) {
+  if (c < 2) return '💀 Legendary';
+  if (c < 8) return '🔴 Very Rare';
+  if (c < 20) return '🟡 Uncommon';
+  return '🟢 Common';
+}
+function getDimBadge(dim) {
+  const m = { overworld:['dim-overworld','🌿 Overworld'], nether:['dim-nether','🔥 Nether'], end:['dim-end','🌌 The End'] };
+  const [cls, label] = m[dim] || m.overworld;
+  return `<span class="dim-badge ${cls}">${label}</span>`;
+}
+function getLocIcon(biome) {
+  const m = {Desert:'🏜️',Ocean:'🌊',Jungle:'🌴','Deep Dark':'🕯️',Underground:'⛏️','Dark Forest':'🌲',Nether:'🔥','The End':'🌌',Various:'🗺️',Overworld:'🌿'};
+  return m[biome] || '📦';
+}
+function getSourceLabel(t) {
+  if (t.chestType === 'Elder Guardian drop') return 'Kill Elder Guardian';
+  if (t.chestType === 'suspicious gravel') return 'Brush suspicious gravel';
+  if (t.chestType === 'standard vault') return 'Vault (Trial Key)';
+  if (t.chestType === 'ominous vault') return 'Ominous Vault (Ominous Key)';
+  return 'Open chest';
+}
+function calcProb(chance, n) {
+  return ((1 - Math.pow(1 - chance/100, n)) * 100).toFixed(1);
+}
+function buildCraftGrid(trim) {
+  const D    = `<div class="craft-cell">${img('mat_diamond')}</div>`;
+  const MAT  = `<div class="craft-cell">${img('mat_' + trim.dupKey)}</div>`;
+  const TRIM = `<div class="craft-cell">${img('trim_' + trim.id)}</div>`;
+  const dSrc = IMGS['mat_diamond'] || '';
+  return `
+  <div>
+    <div class="craft-title">Duplication Recipe</div>
+    <div class="craft-wrap">
+      <div class="craft-grid">
+        ${D}${D}${D}
+        ${D}${MAT}${D}
+        ${D}${TRIM}${D}
+      </div>
+      <div class="craft-arrow">→</div>
+      <div class="craft-right">
+        <div class="craft-output">${img('trim_' + trim.id, 34)}</div>
+        <div class="craft-x2">×2</div>
+        <div class="craft-diamond-list">
+          <div class="dl-row"><img src="${dSrc}" alt="diamond"> <strong>7×</strong> Diamond</div>
+          <div class="dl-row">${img('mat_'+trim.dupKey,14)} <strong>1×</strong> ${trim.dupMaterial}</div>
+          <div class="dl-row">${img('trim_'+trim.id,14)} <strong>1×</strong> Template</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+let found = JSON.parse(localStorage.getItem('trimfinder_found') || '[]');
+let currentFilter = 'all';
+
+function save() { localStorage.setItem('trimfinder_found', JSON.stringify(found)); }
+function updateProgress() {
+  const c = found.length, t = TRIMS.length;
+  document.getElementById('progressCount').textContent = `${c} / ${t}`;
+  document.getElementById('progressBar').style.width = (c/t*100)+'%';
+}
+function applyFilter() {
+  document.querySelectorAll('.card').forEach(card => {
+    const isFnd = found.includes(card.dataset.id);
+    card.classList.toggle('hidden',
+      currentFilter === 'found' ? !isFnd :
+      currentFilter === 'missing' ? isFnd : false
+    );
+  });
+}
+
+function buildCards() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  TRIMS.forEach((trim, idx) => {
+    const isFnd = found.includes(trim.id);
+    const trimSrc = IMGS['trim_'+trim.id] || `${GH}/${trim.id}_armor_trim_smithing_template.png`;
+    const card = document.createElement('div');
+    card.className = 'card' + (isFnd ? ' found' : '');
+    card.dataset.id = trim.id;
+    card.style.animationDelay = (idx * 0.03) + 's';
+    const attemptsLabel = trim.chestType.includes('gravel') ? 'blocks brushed'
+      : trim.chestType.includes('drop') ? 'kills'
+      : (trim.chestType.includes('vault') || trim.id === 'bolt' || trim.id === 'flow') ? 'vaults opened'
+      : 'chests opened';
+    card.innerHTML = `
+      <div class="found-badge">✓</div>
+      <div class="card-header">
+        <div class="card-img-wrap">
+          <img src="${trimSrc}" alt="${trim.name}" onerror="this.style.opacity=0">
+        </div>
+        <div>
+          <div class="card-name">${trim.name}</div>
+          <div class="location-banner">${getLocIcon(trim.biome)} ${trim.location}</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="meta-row">
+          <span class="chance-badge ${getRarityClass(trim.chance)}">${getRarityLabel(trim.chance)} — ${trim.chance}%</span>
+          ${getDimBadge(trim.dimension)}
+        </div>
+        <div class="source-row">
+          <span class="source-label">How to get</span>
+          <span class="source-val">${getSourceLabel(trim)}</span>
+        </div>
+        <div class="calc-box" onclick="event.stopPropagation()">
+          <div class="calc-title">Probability Calculator</div>
+          <div class="calc-row">
+            <div class="calc-number-wrap">
+              <button class="calc-btn" data-dir="-1" data-id="${trim.id}">−</button>
+              <input class="calc-input" type="number" min="1" max="9999" value="1" id="inp-${trim.id}">
+              <button class="calc-btn" data-dir="1" data-id="${trim.id}">+</button>
+            </div>
+            <span class="calc-label">${attemptsLabel}</span>
+          </div>
+          <div class="calc-result" id="calc-${trim.id}">~${calcProb(trim.chance, 1)}% <span>chance of finding at least one</span></div>
+        </div>
+        ${buildCraftGrid(trim)}
+        <div class="lore-text">${trim.lore}</div>
+      </div>
+    `;
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.calc-box') || e.target.closest('.craft-wrap')) return;
+      const i = found.indexOf(trim.id);
+      if (i > -1) { found.splice(i,1); card.classList.remove('found'); }
+      else { found.push(trim.id); card.classList.add('found'); }
+      save(); updateProgress(); applyFilter();
+    });
+    card.querySelectorAll('.calc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const inp = document.getElementById('inp-' + trim.id);
+        let v = parseInt(inp.value) || 1;
+        v = Math.max(1, Math.min(9999, v + parseInt(btn.dataset.dir)));
+        inp.value = v;
+        document.getElementById('calc-'+trim.id).innerHTML =
+          `~${calcProb(trim.chance, v)}% <span>chance of finding at least one</span>`;
+      });
+    });
+    card.querySelector('.calc-input').addEventListener('input', e => {
+      const v = Math.max(1, parseInt(e.target.value) || 1);
+      document.getElementById('calc-'+trim.id).innerHTML =
+        `~${calcProb(trim.chance, v)}% <span>chance of finding at least one</span>`;
+    });
+    grid.appendChild(card);
+  });
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    applyFilter();
+  });
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (confirm('Reset your entire collection? This cannot be undone.')) {
+    found = [];
+    save();
+    currentFilter = 'all';
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-filter="all"]').classList.add('active');
+    buildCards();
+    updateProgress();
+  }
+});
+
+buildCards();
+updateProgress();
+</script>
+</body>
+</html>
