@@ -4,11 +4,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-adsense-account" content="ca-pub-1624961508953638">
+<meta name="description" content="Track every Minecraft armor trim smithing template. Interactive checklist, drop chance calculator, and duplication recipes for all 18 trims.">
+<meta name="keywords" content="Minecraft armor trims, smithing templates, trim checklist, Minecraft guide, armor trim locations, Silence trim, Ward trim">
+<meta name="author" content="MuinainenBanaani">
+<meta property="og:title" content="Trim Finder — Minecraft Armor Trims Checklist">
+<meta property="og:description" content="Track all 18 Minecraft armor trims. Find locations, drop chances, and duplication recipes.">
+<meta property="og:type" content="website">
 <title>Trim Finder — Minecraft Armor Trims Checklist</title>
 
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1624961508953638" crossorigin="anonymous"></script>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap');
@@ -45,130 +48,6 @@
       radial-gradient(ellipse 40% 40% at 80% 20%, rgba(240,192,64,0.04) 0%, transparent 60%);
   }
 
-  /* ===== ADS TOGGLE SLIDER (top-left) ===== */
-  #ads-toggle-wrap {
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 6px 14px 6px 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    transition: border-color 0.2s;
-    user-select: none;
-    cursor: pointer;
-  }
-  #ads-toggle-wrap:hover { border-color: var(--gold); }
-  #ads-toggle-wrap:hover .ads-toggle-label { color: var(--gold); }
-
-  /* The actual pill toggle */
-  .ads-toggle-track {
-    width: 36px;
-    height: 20px;
-    background: #333a47;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    position: relative;
-    transition: background 0.25s, border-color 0.25s;
-    flex-shrink: 0;
-  }
-  .ads-toggle-thumb {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 14px;
-    height: 14px;
-    background: var(--text-muted);
-    border-radius: 50%;
-    transition: transform 0.25s cubic-bezier(0.34,1.4,0.64,1), background 0.25s;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.5);
-  }
-  /* ON = ads disabled */
-  #ads-toggle-wrap.ads-off .ads-toggle-track {
-    background: rgba(76,175,80,0.25);
-    border-color: rgba(76,175,80,0.5);
-  }
-  #ads-toggle-wrap.ads-off .ads-toggle-thumb {
-    transform: translateX(16px);
-    background: var(--green);
-  }
-  .ads-toggle-label {
-    font-family: 'Cinzel', serif;
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-    white-space: nowrap;
-  }
-  #ads-toggle-wrap.ads-off .ads-toggle-label { color: var(--green); }
-
-  /* Fade ads in/out */
-  .ad-slot { transition: opacity 0.4s ease, max-height 0.4s ease; overflow: hidden; }
-  .ad-slot.hidden-ad { opacity: 0; max-height: 0 !important; pointer-events: none; }
-
-  /* Ad banner wrapper styling — blends with theme */
-  .ad-banner {
-    max-width: 960px;
-    margin: 18px auto 0;
-    padding: 0 20px;
-  }
-  .ad-banner-inner {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    min-height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  .ad-banner-inner::before {
-    content: 'Advertisement';
-    position: absolute;
-    top: 4px;
-    left: 10px;
-    font-size: 0.6rem;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    pointer-events: none;
-  }
-  /* Side rail ad */
-  .ad-rail {
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 12px;
-    width: 160px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    min-height: 600px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-  }
-  .ad-rail::before {
-    content: 'Ad';
-    position: absolute;
-    top: 4px;
-    left: 8px;
-    font-size: 0.6rem;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    pointer-events: none;
-  }
-  @media (max-width: 1300px) { .ad-rail { display: none; } }
 
   /* HEADER */
   header { text-align: center; padding: 48px 20px 28px; border-bottom: 1px solid var(--border); position: relative; }
@@ -258,6 +137,28 @@
 
   .lore-text { font-size: 0.78rem; color: var(--text-muted); font-style: italic; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.5; }
 
+
+  /* NAV */
+  .site-nav { background: var(--surface2); border-bottom: 1px solid var(--border); }
+  .site-nav ul { max-width: 960px; margin: 0 auto; padding: 0 20px; list-style: none; display: flex; gap: 4px; }
+  .site-nav a { display: block; padding: 10px 14px; color: var(--text-muted); text-decoration: none; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; border-bottom: 2px solid transparent; }
+  .site-nav a:hover, .site-nav a.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* INTRO SECTION */
+  .intro-section { max-width: 960px; margin: 32px auto 0; padding: 0 20px; }
+  .intro-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; }
+  .intro-box h2 { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600; color: var(--gold); margin-bottom: 8px; letter-spacing: 0.05em; }
+  .intro-box p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+  .intro-box p:last-child { margin-bottom: 0; }
+  .intro-box ul { font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; padding-left: 18px; margin-bottom: 16px; }
+  .intro-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 600px) { .intro-cols { grid-template-columns: 1fr; } }
+
+  /* FOOTER NAV */
+  .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 10px; flex-wrap: wrap; }
+  .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.78rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+
   footer { text-align: center; padding: 28px; color: var(--text-muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 12px; }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -265,21 +166,16 @@
 </head>
 <body>
 
-<!-- ===== ADS TOGGLE (top-left fixed) ===== -->
-<div id="ads-toggle-wrap" title="Toggle ads on/off">
-  <div class="ads-toggle-track">
-    <div class="ads-toggle-thumb"></div>
-  </div>
-  <span class="ads-toggle-label" id="ads-toggle-label">Disable Ads</span>
-</div>
+<nav class="site-nav">
+  <ul>
+    <li><a href="index.html" class="active">🏠 Checklist</a></li>
+    <li><a href="guide.html">📖 Guide</a></li>
+    <li><a href="about.html">👤 About</a></li>
+    <li><a href="privacy.html">🔒 Privacy</a></li>
+    <li><a href="contact.html">✉ Contact</a></li>
+  </ul>
+</nav>
 
-<!-- ===== FIXED SIDE RAIL AD ===== -->
-<div class="ad-rail ad-slot" id="ad-rail">
-  <ins class="adsbygoogle"
-     style="display:inline-block;width:160px;height:600px"
-     data-ad-client="ca-pub-1624961508953638"
-     data-ad-slot="auto"></ins>
-</div>
 
 <header>
   <span class="header-icon">⚔️</span>
@@ -287,17 +183,30 @@
   <p class="subtitle">Minecraft Armor Trims Collector's Checklist</p>
 </header>
 
-<!-- ===== TOP BANNER AD ===== -->
-<div class="ad-banner ad-slot" id="ad-top">
-  <div class="ad-banner-inner">
-    <ins class="adsbygoogle"
-       style="display:block;width:100%;min-height:90px;"
-       data-ad-client="ca-pub-1624961508953638"
-       data-ad-format="auto"
-       data-full-width-responsive="true"
-       data-ad-slot="auto"></ins>
+<!-- SEO CONTENT SECTION -->
+<section class="intro-section" aria-label="About Trim Finder">
+  <div class="intro-box">
+    <div class="intro-cols">
+      <div>
+        <h2>What is Trim Finder?</h2>
+        <p>Trim Finder is an interactive checklist for Minecraft players who want to collect all 18 armor trim smithing templates. Track which trims you've found, calculate your drop chances, and see the full duplication recipe for every single one.</p>
+        <h2>How to Use</h2>
+        <ul>
+          <li>Click any card to mark that trim as found</li>
+          <li>Use the filters to view only found or missing trims</li>
+          <li>Adjust the calculator to estimate your odds</li>
+          <li>Your progress is saved automatically in your browser</li>
+        </ul>
+      </div>
+      <div>
+        <h2>About Armor Trims</h2>
+        <p>Armor trims were added in Minecraft Java Edition 1.20 (Trails & Tales). They are cosmetic smithing templates that let you apply decorative patterns to any armor set using a smithing table.</p>
+        <p>There are 18 unique trims spread across different structures and dimensions — from the common Vex trim found in Woodland Mansions at 50%, to the legendary Silence trim buried in Ancient Cities at just 1.2%. Collecting them all requires exploring the Overworld, Nether, and The End.</p>
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
 
 <div class="progress-section">
   <div class="progress-header">
@@ -316,53 +225,19 @@
 
 <div class="grid" id="grid"></div>
 
-<!-- ===== BOTTOM BANNER AD ===== -->
-<div class="ad-banner ad-slot" id="ad-bottom" style="margin-bottom:20px;">
-  <div class="ad-banner-inner">
-    <ins class="adsbygoogle"
-       style="display:block;width:100%;min-height:90px;"
-       data-ad-client="ca-pub-1624961508953638"
-       data-ad-format="auto"
-       data-full-width-responsive="true"
-       data-ad-slot="auto"></ins>
-  </div>
 </div>
 
-<footer>Click any card to mark as found &nbsp;·&nbsp; Progress saves automatically &nbsp;·&nbsp; Created by <a href="https://fi.namemc.com/profile/MuinainenBanaani.1" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:600;transition:opacity 0.2s" onmouseover="this.style.opacity=0.75" onmouseout="this.style.opacity=1">MuinainenBanaani</a></footer>
+<footer>
+  <div class="footer-links">
+    <a href="guide.html">Trim Guide</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  Click any card to mark as found &nbsp;·&nbsp; Progress saves automatically &nbsp;·&nbsp; Created by <a href="https://fi.namemc.com/profile/MuinainenBanaani.1" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:600;transition:opacity 0.2s" onmouseover="this.style.opacity=0.75" onmouseout="this.style.opacity=1">MuinainenBanaani</a>
+</footer>
 
 <script>
-// ===== ADS TOGGLE LOGIC =====
-const adToggle    = document.getElementById('ads-toggle-wrap');
-const adLabel     = document.getElementById('ads-toggle-label');
-const adSlots     = document.querySelectorAll('.ad-slot');
-
-let adsDisabled = localStorage.getItem('trimfinder_ads_disabled') === 'true';
-
-function applyAdsState() {
-  adSlots.forEach(el => el.classList.toggle('hidden-ad', adsDisabled));
-  adToggle.classList.toggle('ads-off', adsDisabled);
-  adLabel.textContent = adsDisabled ? 'Ads Off ✓ (not supporting)' : 'Disable Ads';
-}
-
-adToggle.addEventListener('click', () => {
-  adsDisabled = !adsDisabled;
-  localStorage.setItem('trimfinder_ads_disabled', adsDisabled);
-  applyAdsState();
-});
-
-applyAdsState();
-
-// Push AdSense units (safe to call multiple times)
-window.addEventListener('load', () => {
-  if (!adsDisabled) {
-    try {
-      document.querySelectorAll('.adsbygoogle').forEach(() => {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      });
-    } catch(e) {}
-  }
-});
-
 // ===== ORIGINAL TRIM FINDER LOGIC =====
 const GH = "https://raw.githubusercontent.com/MuinainenBanaani/TrimFinder/main/images";
 const IMGS = {

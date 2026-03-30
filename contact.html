@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap');
+  :root { --bg:#0a0c0f;--surface:#111418;--surface2:#181d23;--border:#2a3040;--gold:#f0c040;--text:#d4c9b0;--text-muted:#7a8090; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;background-image:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(91,143,212,0.07) 0%,transparent 70%)}
+  .site-nav{background:var(--surface2);border-bottom:1px solid var(--border)}
+  .site-nav ul{max-width:960px;margin:0 auto;padding:0 20px;list-style:none;display:flex;gap:4px}
+  .site-nav a{display:block;padding:10px 14px;color:var(--text-muted);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;transition:color .2s;border-bottom:2px solid transparent}
+  .site-nav a:hover,.site-nav a.active{color:var(--gold);border-bottom-color:var(--gold)}
+  .page-wrap{max-width:760px;margin:48px auto;padding:0 20px}
+  h1{font-family:'Cinzel',serif;font-size:2rem;font-weight:800;color:var(--gold);margin-bottom:6px;text-shadow:0 0 30px rgba(240,192,64,0.3)}
+  h2{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;color:var(--gold);margin:28px 0 10px;letter-spacing:.04em}
+  p{font-size:.9rem;color:var(--text-muted);line-height:1.8;margin-bottom:14px}
+  ul,ol{font-size:.9rem;color:var(--text-muted);line-height:1.8;padding-left:20px;margin-bottom:14px}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{opacity:.75}
+  .page-subtitle{color:var(--text-muted);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  .card-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 26px;margin-bottom:16px}
+  footer{text-align:center;padding:28px;color:var(--text-muted);font-size:.78rem;border-top:1px solid var(--border);margin-top:48px}
+  .footer-links{display:flex;justify-content:center;gap:20px;margin-bottom:10px;flex-wrap:wrap}
+  .footer-links a{color:var(--text-muted);font-size:.78rem}
+  .footer-links a:hover{color:var(--gold)}
+  strong{color:var(--text)}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <ul>
+    <li><a href="index.html">🏠 Checklist</a></li>
+    <li><a href="guide.html">📖 Guide</a></li>
+    <li><a href="about.html">👤 About</a></li>
+    <li><a href="privacy.html">🔒 Privacy</a></li>
+    <li><a href="contact.html" class="active">✉ Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+  <h1>✉ Contact</h1>
+  <p class="page-subtitle">Get in touch with the creator of Trim Finder</p>
+
+  <div class="card-box">
+    <h2>GitHub (Preferred)</h2>
+    <p>The best way to report bugs, suggest features, or ask questions is through the GitHub repository:</p>
+    <p><a href="https://github.com/MuinainenBanaani/TrimFinder/issues" target="_blank">github.com/MuinainenBanaani/TrimFinder/issues</a></p>
+    <p>Open a new Issue and describe your question or problem. This keeps everything organized and visible to others who might have the same question.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Minecraft / NameMC</h2>
+    <p>You can also find the creator on Minecraft and NameMC:</p>
+    <p><a href="https://fi.namemc.com/profile/MuinainenBanaani.1" target="_blank">fi.namemc.com/profile/MuinainenBanaani.1</a></p>
+  </div>
+
+  <div class="card-box">
+    <h2>What to Include</h2>
+    <p>If you're reporting a bug, please include:</p>
+    <ul>
+      <li>Which browser and operating system you're using</li>
+      <li>What you expected to happen</li>
+      <li>What actually happened</li>
+      <li>A screenshot if possible</li>
+    </ul>
+  </div>
+
+  <div class="card-box">
+    <h2>Response Time</h2>
+    <p>This is a personal project maintained in spare time. Responses may take a few days. Thank you for your patience!</p>
+  </div>
+</div>
+<footer>
+  <div class="footer-links">
+    <a href="guide.html">Trim Guide</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  Created by <a href="https://fi.namemc.com/profile/MuinainenBanaani.1" target="_blank">MuinainenBanaani</a>
+</footer>
+</body>
+</html>

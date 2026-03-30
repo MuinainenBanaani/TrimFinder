@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap');
+  :root { --bg:#0a0c0f;--surface:#111418;--surface2:#181d23;--border:#2a3040;--gold:#f0c040;--text:#d4c9b0;--text-muted:#7a8090; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;background-image:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(91,143,212,0.07) 0%,transparent 70%)}
+  .site-nav{background:var(--surface2);border-bottom:1px solid var(--border)}
+  .site-nav ul{max-width:960px;margin:0 auto;padding:0 20px;list-style:none;display:flex;gap:4px}
+  .site-nav a{display:block;padding:10px 14px;color:var(--text-muted);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;transition:color .2s;border-bottom:2px solid transparent}
+  .site-nav a:hover,.site-nav a.active{color:var(--gold);border-bottom-color:var(--gold)}
+  .page-wrap{max-width:760px;margin:48px auto;padding:0 20px}
+  h1{font-family:'Cinzel',serif;font-size:2rem;font-weight:800;color:var(--gold);margin-bottom:6px;text-shadow:0 0 30px rgba(240,192,64,0.3)}
+  h2{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;color:var(--gold);margin:28px 0 10px;letter-spacing:.04em}
+  p{font-size:.9rem;color:var(--text-muted);line-height:1.8;margin-bottom:14px}
+  ul,ol{font-size:.9rem;color:var(--text-muted);line-height:1.8;padding-left:20px;margin-bottom:14px}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{opacity:.75}
+  .page-subtitle{color:var(--text-muted);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  .card-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 26px;margin-bottom:16px}
+  footer{text-align:center;padding:28px;color:var(--text-muted);font-size:.78rem;border-top:1px solid var(--border);margin-top:48px}
+  .footer-links{display:flex;justify-content:center;gap:20px;margin-bottom:10px;flex-wrap:wrap}
+  .footer-links a{color:var(--text-muted);font-size:.78rem}
+  .footer-links a:hover{color:var(--gold)}
+  strong{color:var(--text)}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <ul>
+    <li><a href="index.html">🏠 Checklist</a></li>
+    <li><a href="guide.html" class="active">📖 Guide</a></li>
+    <li><a href="about.html">👤 About</a></li>
+    <li><a href="privacy.html">🔒 Privacy</a></li>
+    <li><a href="contact.html">✉ Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+  <h1>⚔️ Complete Armor Trims Guide</h1>
+  <p class="page-subtitle">All 18 smithing templates — where to find them, how rare they are, and how to duplicate them</p>
+
+  <div class="card-box">
+    <h2>What Are Armor Trims?</h2>
+    <p>Armor trims are cosmetic smithing templates added in Minecraft Java Edition 1.20 (Trails & Tales update). They let you apply decorative visual patterns to any armor piece using a <strong>Smithing Table</strong>. Trims do not affect stats — they're purely for style.</p>
+    <p>To apply a trim you need: a <strong>Smithing Table</strong>, an <strong>armor piece</strong>, the <strong>trim template</strong>, and a <strong>trim material</strong> (like gold, diamond, netherite, etc.) that determines the color.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>How to Duplicate a Trim</h2>
+    <p>Each trim template can only be found once in its structure, but you can duplicate it infinitely using a Smithing Table with this recipe:</p>
+    <ul>
+      <li><strong>7 Diamonds</strong> — fill all slots except center and bottom-center</li>
+      <li><strong>1× Duplication Material</strong> — unique per trim (e.g. Sandstone for Dune)</li>
+      <li><strong>1× Trim Template</strong> — the one you already found</li>
+    </ul>
+    <p>This produces <strong>2 copies</strong> of the trim — your original back plus a new one.</p>
+  </div>
+
+  <h2>🌿 Overworld Trims</h2>
+
+  <div class="card-box">
+    <h2>Sentry — 25% chance</h2>
+    <p><strong>Location:</strong> Pillager Outpost chests &nbsp;|&nbsp; <strong>Duplicate with:</strong> Cobblestone</p>
+    <p>One of the more common trims. Pillager Outposts are easy to find in plains, deserts, and taigas. Each outpost has one chest on the ground floor with a 25% chance of containing the Sentry template.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Dune — 14.3% chance</h2>
+    <p><strong>Location:</strong> Desert Pyramid chests &nbsp;|&nbsp; <strong>Duplicate with:</strong> Sandstone</p>
+    <p>Found in the hidden TNT chamber beneath desert pyramids. Disarm the pressure plate before looting or you'll blow up the chests. Each pyramid has a 14.3% chance of containing Dune.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Coast — 16.7% chance</h2>
+    <p><strong>Location:</strong> Shipwreck chests &nbsp;|&nbsp; <strong>Duplicate with:</strong> Cobblestone</p>
+    <p>Shipwrecks are common in ocean biomes — look for the wooden hull sticking out of the seafloor or shore. The Coast trim has a 16.7% chance per chest.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Wild — 33.3% chance</h2>
+    <p><strong>Location:</strong> Jungle Temple chests &nbsp;|&nbsp; <strong>Duplicate with:</strong> Mossy Cobblestone</p>
+    <p>A relatively generous drop rate, but jungle temples are rare to find. Use F3 or a map to locate jungle biomes. Watch out for the arrow traps and puzzle dispenser inside.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Eye — 10% chance</h2>
+    <p><strong>Location:</strong> Stronghold library and altar chests &nbsp;|&nbsp; <strong>Duplicate with:</strong> End Stone</p>
+    <p>Guaranteed in every stronghold library chest, with an additional 10% chance in altar chests. Throw Eyes of Ender to locate your nearest stronghold.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Ward — 5% chance</h2>
+    <p><strong>Location:</strong> Ancient City chests &nbsp;|&nbsp; <strong>Duplicate with:</strong> Cobbled Deepslate</p>
+    <p>Ancient Cities are found deep underground in Deep Dark biomes, guarded by the fearsome Warden. Sneak at all times. Ward has a 5% chance — you may need to loot many chests.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>🕯️ Silence — 1.2% chance (Legendary)</h2>
+    <p><strong>Location:</strong> Ancient City chests &nbsp;|&nbsp; <strong>Duplicate with:</strong> Cobbled Deepslate</p>
+    <p>The rarest trim in the game at just <strong>1.2%</strong>. Also found in Ancient Cities alongside Ward. Statistically you'd need to loot around <strong>57 chests</strong> for a 50% chance of finding one. Prepare well — the Warden will not make this easy.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Vex — 50% chance</h2>
+    <p><strong>Location:</strong> Woodland Mansion chests &nbsp;|&nbsp; <strong>Duplicate with:</strong> Cobblestone</p>
+    <p>The highest drop rate of any trim at 50%, but Woodland Mansions are extremely rare and only spawn in Dark Forest biomes far from spawn. Use a Cartographer villager to get a Woodland Explorer Map.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Tide — 20% chance</h2>
+    <p><strong>Location:</strong> Dropped by Elder Guardians in Ocean Monuments &nbsp;|&nbsp; <strong>Duplicate with:</strong> Prismarine</p>
+    <p>Unique in that it's a <strong>mob drop</strong>, not a chest loot. Each Ocean Monument has 3 Elder Guardians, each with a 20% chance to drop Tide. Bring strong gear and milk to cure Mining Fatigue.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Bolt — 6.3% chance</h2>
+    <p><strong>Location:</strong> Standard Vaults in Trial Chambers &nbsp;|&nbsp; <strong>Duplicate with:</strong> Copper Block</p>
+    <p>Trial Chambers are underground structures filled with mob spawners. Open standard Vaults using a <strong>Trial Key</strong>, obtained by defeating a trial spawner. Bolt has a 6.3% chance per vault.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Flow — 22.5% chance</h2>
+    <p><strong>Location:</strong> Ominous Vaults in Trial Chambers &nbsp;|&nbsp; <strong>Duplicate with:</strong> Breeze Rod</p>
+    <p>Found in <strong>Ominous Vaults</strong>, which require an <strong>Ominous Trial Key</strong>. Get these by defeating trial spawners while under the Bad Omen effect. Flow is one of the better drop rates at 22.5%.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Wayfinder, Raiser, Shaper, Host — 8.3% each</h2>
+    <p><strong>Location:</strong> Trail Ruins (Suspicious Gravel) &nbsp;|&nbsp; <strong>Duplicate with:</strong> Terracotta</p>
+    <p>These four trims are all found by <strong>brushing suspicious gravel</strong> inside Trail Ruins structures. Trail Ruins are buried underground and generate in various biomes. Each suspicious gravel block has an 8.3% chance per trim — bring lots of brushes.</p>
+  </div>
+
+  <h2>🔥 Nether Trims</h2>
+
+  <div class="card-box">
+    <h2>Snout — 8.3% chance</h2>
+    <p><strong>Location:</strong> Bastion Remnant chests &nbsp;|&nbsp; <strong>Duplicate with:</strong> Blackstone</p>
+    <p>Bastion Remnants are large Nether structures home to aggressive Piglins. Loot carefully — attacking any Piglin will anger all of them. Snout has an 8.3% chance per chest.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Rib — 6.7% chance</h2>
+    <p><strong>Location:</strong> Nether Fortress chests &nbsp;|&nbsp; <strong>Duplicate with:</strong> Netherrack</p>
+    <p>Nether Fortresses span large areas of the Nether. Navigate the corridors to find the blaze spawner rooms and treasure chests. Rib drops at 6.7% — bring fire resistance potions.</p>
+  </div>
+
+  <h2>🌌 The End Trims</h2>
+
+  <div class="card-box">
+    <h2>Spire — 6.7% chance</h2>
+    <p><strong>Location:</strong> End City chests &nbsp;|&nbsp; <strong>Duplicate with:</strong> Purpur Block</p>
+    <p>End Cities generate on the outer End islands, reached through the End Gateway portals after defeating the Ender Dragon. Use an Elytra to navigate between islands. Spire has a 6.7% chance per chest — the rarest End loot.</p>
+  </div>
+
+</div>
+<footer>
+  <div class="footer-links">
+    <a href="guide.html">Trim Guide</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  Created by <a href="https://fi.namemc.com/profile/MuinainenBanaani.1" target="_blank">MuinainenBanaani</a>
+</footer>
+</body>
+</html>

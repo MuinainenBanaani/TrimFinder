@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap');
+  :root { --bg:#0a0c0f;--surface:#111418;--surface2:#181d23;--border:#2a3040;--gold:#f0c040;--text:#d4c9b0;--text-muted:#7a8090; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;background-image:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(91,143,212,0.07) 0%,transparent 70%)}
+  .site-nav{background:var(--surface2);border-bottom:1px solid var(--border)}
+  .site-nav ul{max-width:960px;margin:0 auto;padding:0 20px;list-style:none;display:flex;gap:4px}
+  .site-nav a{display:block;padding:10px 14px;color:var(--text-muted);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;transition:color .2s;border-bottom:2px solid transparent}
+  .site-nav a:hover,.site-nav a.active{color:var(--gold);border-bottom-color:var(--gold)}
+  .page-wrap{max-width:760px;margin:48px auto;padding:0 20px}
+  h1{font-family:'Cinzel',serif;font-size:2rem;font-weight:800;color:var(--gold);margin-bottom:6px;text-shadow:0 0 30px rgba(240,192,64,0.3)}
+  h2{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;color:var(--gold);margin:28px 0 10px;letter-spacing:.04em}
+  p{font-size:.9rem;color:var(--text-muted);line-height:1.8;margin-bottom:14px}
+  ul,ol{font-size:.9rem;color:var(--text-muted);line-height:1.8;padding-left:20px;margin-bottom:14px}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{opacity:.75}
+  .page-subtitle{color:var(--text-muted);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  .card-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 26px;margin-bottom:16px}
+  footer{text-align:center;padding:28px;color:var(--text-muted);font-size:.78rem;border-top:1px solid var(--border);margin-top:48px}
+  .footer-links{display:flex;justify-content:center;gap:20px;margin-bottom:10px;flex-wrap:wrap}
+  .footer-links a{color:var(--text-muted);font-size:.78rem}
+  .footer-links a:hover{color:var(--gold)}
+  strong{color:var(--text)}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <ul>
+    <li><a href="index.html">🏠 Checklist</a></li>
+    <li><a href="guide.html">📖 Guide</a></li>
+    <li><a href="about.html">👤 About</a></li>
+    <li><a href="privacy.html" class="active">🔒 Privacy</a></li>
+    <li><a href="contact.html">✉ Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+  <h1>🔒 Privacy Policy</h1>
+  <p class="page-subtitle">Last updated: 2025</p>
+
+  <div class="card-box">
+    <h2>Overview</h2>
+    <p>Trim Finder is a static website with no backend server, no user accounts, and no data collection. This privacy policy explains what minimal data handling takes place when you use the site.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Data We Do Not Collect</h2>
+    <ul>
+      <li>We do not collect your name, email, or any personal information</li>
+      <li>We do not use cookies for tracking</li>
+      <li>We do not run analytics or user tracking scripts</li>
+      <li>We do not sell or share any data with third parties</li>
+    </ul>
+  </div>
+
+  <div class="card-box">
+    <h2>Local Storage</h2>
+    <p>Trim Finder uses your browser's <strong>localStorage</strong> to save your checklist progress (which trims you've marked as found). This data is stored entirely on your own device and is never transmitted to any server. You can clear it at any time by clicking "Reset All" on the checklist or by clearing your browser's site data.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>External Resources</h2>
+    <p>The site loads fonts from <strong>Google Fonts</strong> (fonts.googleapis.com). This is a standard web practice — Google may log the font request as part of their service. See <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a> for details.</p>
+    <p>Trim textures are loaded from <strong>GitHub</strong> (raw.githubusercontent.com). GitHub may log standard server access requests. See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank">GitHub's Privacy Statement</a> for details.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Hosting</h2>
+    <p>This site is hosted on <strong>GitHub Pages</strong>. GitHub may collect standard server logs including IP addresses as part of their hosting service. This is outside the control of Trim Finder. See GitHub's privacy statement for more information.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Changes to This Policy</h2>
+    <p>If this privacy policy is ever updated, the "last updated" date at the top of this page will change. Continued use of the site after changes constitutes acceptance of the updated policy.</p>
+  </div>
+
+  <div class="card-box">
+    <h2>Contact</h2>
+    <p>If you have any questions about this privacy policy, please use the <a href="contact.html">contact page</a>.</p>
+  </div>
+</div>
+<footer>
+  <div class="footer-links">
+    <a href="guide.html">Trim Guide</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  Created by <a href="https://fi.namemc.com/profile/MuinainenBanaani.1" target="_blank">MuinainenBanaani</a>
+</footer>
+</body>
+</html>
